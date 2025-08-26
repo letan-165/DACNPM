@@ -40,7 +40,7 @@ public class SecurityConfig {
         return http.build();
     }
     @NonFinal
-    @Value("${key.jwt}")
+    @Value("${key.jwt.value}")
     String KEY;
 
     @Bean
