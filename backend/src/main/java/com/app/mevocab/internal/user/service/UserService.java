@@ -38,7 +38,7 @@ public class UserService {
     }
 
     public UserResponse findByName(String name) {
-        User user = userRepository.findByName(name)
+        User user = userRepository.findByUsername(name)
                 .orElseThrow(()->new AppException(ErrorCode.USER_NO_EXISTS));
         return userMapper.toUserResponse(user);
     }

@@ -63,7 +63,7 @@ public class AuthService {
     }
 
     public LoginResponse login(LoginRequest request) throws JOSEException {
-        User user = userRepository.findByName(request.getUsername())
+        User user = userRepository.findByUsername(request.getUsername())
                 .orElseThrow(()-> new AppException(ErrorCode.USER_NO_EXISTS));
 
         boolean check = passwordEncoder.matches(request.getPassword(), user.getPassword());
