@@ -1,9 +1,7 @@
 package com.app.mevocab.internal.user.service;
 
-import com.app.mevocab.common.enums.UserRole;
 import com.app.mevocab.common.exception.AppException;
 import com.app.mevocab.common.exception.ErrorCode;
-import com.app.mevocab.internal.user.dto.request.UserSignUpRequest;
 import com.app.mevocab.internal.user.dto.response.UserResponse;
 import com.app.mevocab.internal.user.entity.User;
 import com.app.mevocab.internal.user.mapper.UserMapper;
@@ -12,7 +10,6 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

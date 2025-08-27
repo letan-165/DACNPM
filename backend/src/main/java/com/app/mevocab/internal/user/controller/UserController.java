@@ -2,7 +2,6 @@ package com.app.mevocab.internal.user.controller;
 
 
 import com.app.mevocab.common.ApiResponse;
-import com.app.mevocab.internal.user.dto.request.UserSignUpRequest;
 import com.app.mevocab.internal.user.dto.response.UserResponse;
 import com.app.mevocab.internal.user.service.UserService;
 import lombok.AccessLevel;
