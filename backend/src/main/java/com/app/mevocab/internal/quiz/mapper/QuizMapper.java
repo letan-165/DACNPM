@@ -12,10 +12,10 @@ import java.util.Map;
 
 @Mapper(componentModel = "spring")
 public interface QuizMapper {
-    @Mapping(target = "questions", source = "questions", qualifiedByName = "toMapQuestions")
+    @Mapping(target = "questions", source = "questions", qualifiedByName = "toListQuestions")
     QuizResponse toQuizResponse(Quiz quiz);
 
-    @Named("toMapQuestions")
+    @Named("toListQuestions")
     default List<Question> toMapQuestions(Map<Integer,Question> questionMap){
         return questionMap.values().stream().toList();
     }

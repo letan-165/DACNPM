@@ -1,29 +1,32 @@
-package com.app.mevocab.internal.quiz.entity;
+package com.app.mevocab.internal.result.entity;
 
 import com.app.mevocab.internal.quiz.dto.Question;
+import com.app.mevocab.internal.quiz.entity.Quiz;
+import com.app.mevocab.internal.result.dto.Answer;
 import com.app.mevocab.internal.topic.entity.Topic;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.Instant;
-import java.util.HashMap;
 import java.util.Map;
 
 @Document
-@Builder
+@Builder(toBuilder = true)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Quiz {
+public class Result {
     @Id
-    String quizID;
-    Topic topic;
-    String title;
-    int totalTime;
-    Map<Integer,Question> questions = new HashMap<>();
-    Instant updateAt;
+    String resultID;
+    Quiz quiz;
+    String studentID;
+    Map<Integer, Answer> answers;
+    int totalQuestion;
+    int totalCorrect;
+    double score;
+    Instant createAt;
+    Instant finish;
 }

@@ -21,6 +21,7 @@ public class QuizResponse {
     String quizID;
     Topic topic;
     String title;
+    int totalTime;
     List<Question> questions;
     Instant updateAt;
 }

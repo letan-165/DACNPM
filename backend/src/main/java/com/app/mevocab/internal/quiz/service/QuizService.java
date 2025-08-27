@@ -39,17 +39,19 @@ public class QuizService {
 
     public QuizResponse save(QuizSaveRequest request) {
         var quizID = request.getQuizID();
-        Quiz quiz = new Quiz();
+        Quiz quiz;
         if(quizID!=null){
-            quiz = quizRepository.findById(request.getQuizID())
+            quiz = quizRepository.findById(quizID)
                     .orElseThrow(()->new AppException(ErrorCode.QUIZ_NO_EXISTS));
+        }else {
+            quiz = new Quiz();
         }
         var topic = topicRepository.findById(request.getTopic())
                 .orElseThrow(()->new AppException(ErrorCode.TOPIC_NO_EXISTS));
 
         quiz.setTitle(request.getTitle());
         quiz.setTopic(topic);
-        quiz.setQuestions(new HashMap<>());
+        quiz.setTotalTime(request.getTotalTime());
         quiz.setUpdateAt(Instant.now());
         return quizMapper.toQuizResponse(quizRepository.save(quiz));
     }
