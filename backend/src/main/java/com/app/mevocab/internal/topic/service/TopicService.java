@@ -24,17 +24,13 @@ public class TopicService {
     }
 
     public Topic save(Topic topic){
-        String topicID = topic.getTopicID();
-        if(topicID != null && !topicRepository.existsById(topicID))
-            throw new AppException(ErrorCode.TOPIC_NO_EXISTS);
-
         return topicRepository.save(topic);
     }
 
-    public void deleteById(String topicID){
-        if(!topicRepository.existsById(topicID))
+    public void deleteById(String id){
+        if(!topicRepository.existsById(id))
             throw new AppException(ErrorCode.TOPIC_NO_EXISTS);
 
-        topicRepository.deleteById(topicID);
+        topicRepository.deleteById(id);
     }
 }

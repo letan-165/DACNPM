@@ -13,7 +13,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Topic {
     @Id
-    String topicID;
     String name;
     String description;
 }

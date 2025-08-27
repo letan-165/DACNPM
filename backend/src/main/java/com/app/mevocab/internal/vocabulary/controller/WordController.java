@@ -8,10 +8,9 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/word")
@@ -21,11 +20,37 @@ import org.springframework.web.bind.annotation.RestController;
 public class WordController {
     WordService wordService;
 
-    @PostMapping
-    ApiResponse<Word> save(@RequestBody WordRequest request){
-        return  ApiResponse.<Word>builder()
-                .message("Lưu từ vựng")
-                .result(wordService.save(request))
+    @GetMapping("/public")
+    ApiResponse<List<Word>> findAll(){
+        return ApiResponse.<List<Word>>builder()
+                .message("Lấy danh sách tu vung")
+                .result(wordService.findAll())
                 .build();
     }
+
+    @PostMapping("/public/suggest")
+    ApiResponse<Word> suggest(@RequestBody WordRequest request){
+        return  ApiResponse.<Word>builder()
+                .message("ý kiến từ vựng")
+                .result(wordService.suggest(request,false))
+                .build();
+    }
+
+    @PostMapping("/public/create")
+    ApiResponse<Word> create(@RequestBody WordRequest request){
+        return  ApiResponse.<Word>builder()
+                .message("Lưu từ vựng")
+                .result(wordService.suggest(request,true))
+                .build();
+    }
+
+    @DeleteMapping("/public/{word}")
+    ApiResponse<Boolean> deleteById(@PathVariable String word){
+        wordService.deleteById(word);
+        return ApiResponse.<Boolean>builder()
+                .message("Xóa chủ đề")
+                .result(true)
+                .build();
+    }
+
 }

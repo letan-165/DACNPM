@@ -1,4 +1,4 @@
-package com.app.mevocab.internal.vocabulary.dto.response.dictionary;
+package com.app.mevocab.internal.vocabulary.dto.response;
 
 import lombok.*;
 

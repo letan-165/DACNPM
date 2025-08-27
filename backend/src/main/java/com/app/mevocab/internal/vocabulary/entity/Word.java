@@ -16,7 +16,6 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Word {
     @Id
-    String wordID;
     String word;
     String translation;
     Topic topic;

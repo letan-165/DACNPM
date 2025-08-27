@@ -19,7 +19,7 @@ import java.util.List;
 public class TopicController {
     TopicService topicService;
 
-    @GetMapping
+    @GetMapping("/public")
     ApiResponse<List<Topic>> findAll(){
         return ApiResponse.<List<Topic>>builder()
                 .message("Lấy danh sách chủ đề")
@@ -27,7 +27,7 @@ public class TopicController {
                 .build();
     }
 
-    @PostMapping
+    @PostMapping("/public/save")
     ApiResponse<Topic> save(@RequestBody Topic topic){
         return ApiResponse.<Topic>builder()
                 .message("Lưu chủ đề")
@@ -35,9 +35,9 @@ public class TopicController {
                 .build();
     }
 
-    @DeleteMapping("/{topicID}")
-    ApiResponse<Boolean> deleteById(@PathVariable String topicID){
-        topicService.deleteById(topicID);
+    @DeleteMapping("/public/{name}")
+    ApiResponse<Boolean> deleteById(@PathVariable String name){
+        topicService.deleteById(name);
         return ApiResponse.<Boolean>builder()
                 .message("Xóa chủ đề")
                 .result(true)
