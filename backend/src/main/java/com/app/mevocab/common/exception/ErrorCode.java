@@ -8,6 +8,9 @@ import org.springframework.http.HttpStatusCode;
 @Getter
 @AllArgsConstructor
 public enum ErrorCode {
+    QUESTION_INVALID(1011,"Question invalid", HttpStatus.BAD_REQUEST),
+    RESULT_NO_EXISTS(1010,"Result no exists", HttpStatus.BAD_REQUEST),
+    QUIZ_NO_EXISTS(1009,"Quiz no exists", HttpStatus.BAD_REQUEST),
     VOCAB_INVALID(1008,"Vocabulary invalid", HttpStatus.BAD_REQUEST),
     TOPIC_NO_EXISTS(1007,"Topic no exists", HttpStatus.BAD_REQUEST),
     TOKEN_LOGOUT(1006,"Token had logout", HttpStatus.BAD_REQUEST),
