@@ -5,7 +5,6 @@ import '../../data/models/topic.dart';
 import '../../routes/app_navigate.dart';
 import '../widgets/cards/card_topic.dart';
 import '../widgets/custom_appbar.dart';
-import '../widgets/snackbars/custom_snackbar.dart';
 import 'flashcard_page.dart';
 
 class TopicPage extends StatelessWidget {
@@ -15,11 +14,6 @@ class TopicPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final page = mode == "quiz" ? QuizPage() : FlashcardPage();
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      ScaffoldMessenger.of(context).clearSnackBars();
-      CustomSnackBar.show(context, message: mode);
-    });
 
     final topics = [
       Topic(name: "Animals", description: "Các loài động vật"),

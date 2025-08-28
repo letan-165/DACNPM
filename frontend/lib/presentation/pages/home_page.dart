@@ -66,13 +66,13 @@ class HomePage extends StatelessWidget {
                       ),
                     ),
                     ClipOval(
-                      child: Image.network(
-                        "https://static.vecteezy.com/system/resources/thumbnails/017/300/766/small_2x/learning-english-doodle-set-language-school-in-sketch-style-online-language-education-course-hand-drawn-illustration-isolated-on-white-background-vector.jpg",
+                      child: Image.asset(
+                        "assets/images/logo.png",
                         height: 60,
                         width: 60,
                         fit: BoxFit.cover,
                       ),
-                    ),
+                    )
                   ],
                 ),
 
