@@ -56,7 +56,6 @@ public class FlashCardService {
         Card card = Card.builder()
                 .word(word)
                 .isMemorized(request.isMemorized())
-                .note(request.getNote())
                 .build();
 
         flashCard.getCards().put(word.getWord(), card);

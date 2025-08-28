@@ -12,5 +12,4 @@ import lombok.experimental.FieldDefaults;
 public class Card {
     Word word;
     Boolean isMemorized;
-    String note;
 }

@@ -11,5 +11,4 @@ public class CardSaveRequest {
     String studentID;
     String word;
     boolean memorized;
-    String note;
 }
