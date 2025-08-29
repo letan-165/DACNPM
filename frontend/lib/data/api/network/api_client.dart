@@ -29,6 +29,7 @@ class ApiClient {
     FlashCardResponse: (json) => FlashCardResponse.fromJson(json),
   };
 
+  /// Request object đơn
   static Future<T> request<T>(Future<Response> Function(Dio dio) call) async {
     try {
       final res = await call(dio);
@@ -37,23 +38,46 @@ class ApiClient {
         res.data,
         (json) {
           final factory = _factories[T];
-          if (factory == null) {
-            throw Exception("No fromJson factory registered for type $T");
-          }
+          if (factory == null)
+            throw Exception("Chưa có factory cho loại JSON $T");
           return factory(json as Map<String, dynamic>) as T;
         },
       );
 
-      if (apiResponse.code == 1000) {
-        if (apiResponse.result == null) {
-          throw Exception("Empty result");
-        }
-        return apiResponse.result as T;
-      } else {
+      if (apiResponse.code != 1000) throw apiResponse;
+      if (apiResponse.result == null) throw Exception("Kết quả rỗng");
+
+      return apiResponse.result as T;
+    } on DioException catch (e) {
+      throw Exception("Lỗi hệ thống: ${e.message}");
+    }
+  }
+
+  /// Request list
+  static Future<List<T>> requestList<T>(
+      Future<Response> Function(Dio dio) call) async {
+    try {
+      final res = await call(dio);
+
+      final apiResponse = ApiResponse<List<dynamic>>.fromJson(
+        res.data,
+        (json) => json as List<dynamic>,
+      );
+
+      if (apiResponse.code != 1000 || apiResponse.result == null) {
         throw apiResponse;
       }
+
+      final factory = _factories[T];
+      if (factory == null) throw Exception("Chưa có factory cho loại JSON $T");
+
+      final list = apiResponse.result!
+          .map((e) => factory(e as Map<String, dynamic>) as T)
+          .toList();
+
+      return list;
     } on DioException catch (e) {
-      throw Exception("Network error: ${e.message}");
+      throw Exception("Lỗi hệ thống: ${e.message}");
     }
   }
 }

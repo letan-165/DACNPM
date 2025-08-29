@@ -8,7 +8,7 @@ class TopicApi {
   final Dio _dio = ApiClient.dio;
 
   Future<List<Topic>> findAll() {
-    return ApiClient.request<List<Topic>>(
+    return ApiClient.requestList<Topic>(
       (dio) => dio.get("${Endpoints.topic}"),
     );
   }
