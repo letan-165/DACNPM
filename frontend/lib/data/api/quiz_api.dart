@@ -11,7 +11,7 @@ class QuizApi {
   final Dio _dio = ApiClient.dio;
 
   Future<List<QuizResponse>> findAll() {
-    return ApiClient.request<List<QuizResponse>>(
+    return ApiClient.requestList<QuizResponse>(
       (dio) => dio.get("${Endpoints.quiz}"),
     );
   }

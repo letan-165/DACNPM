@@ -8,7 +8,7 @@ class UserApi {
   final Dio _dio = ApiClient.dio;
 
   Future<List<UserResponse>> findAll() {
-    return ApiClient.request<List<UserResponse>>(
+    return ApiClient.requestList<UserResponse>(
       (dio) => dio.get("${Endpoints.user}"),
     );
   }

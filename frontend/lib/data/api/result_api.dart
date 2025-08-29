@@ -10,7 +10,7 @@ class ResultApi {
   final Dio _dio = ApiClient.dio;
 
   Future<List<ResultResponse>> findAllByStudentID(String studentID) {
-    return ApiClient.request<List<ResultResponse>>(
+    return ApiClient.requestList<ResultResponse>(
       (dio) => dio.get("${Endpoints.result}/$studentID"),
     );
   }
