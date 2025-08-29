@@ -32,6 +32,13 @@ public class WordService {
         return wordRepository.findAll();
     }
 
+    public List<Word> findAllByTopic(String topic) {
+        if (!topicRepository.existsById(topic))
+            throw new AppException(ErrorCode.TOPIC_NO_EXISTS);
+
+        return wordRepository.findAllByTopic_Name(topic);
+    }
+
     public Word suggest(WordRequest request, boolean isSave){
         if(isSave && wordRepository.existsById(request.getWord()))
             throw new AppException(ErrorCode.WORD_EXISTS);

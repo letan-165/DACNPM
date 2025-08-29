@@ -28,6 +28,14 @@ public class WordController {
                 .build();
     }
 
+    @GetMapping("/public/topic/{name}")
+    ApiResponse<List<Word>> findAllByTopic(@PathVariable String name){
+        return ApiResponse.<List<Word>>builder()
+                .message("Lấy danh sách tu vung theo chu de "+name)
+                .result(wordService.findAllByTopic(name))
+                .build();
+    }
+
     @PostMapping("/public/suggest")
     ApiResponse<Word> suggest(@RequestBody WordRequest request){
         return  ApiResponse.<Word>builder()
