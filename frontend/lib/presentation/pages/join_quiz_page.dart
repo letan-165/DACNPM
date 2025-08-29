@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/presentation/pages/do_quiz_page.dart';
 
-import '../../data/models/dto/QuizResponse.dart';
+import '../../data/models/dto/Response/QuizResponse.dart';
 import '../../routes/app_navigate.dart';
 import '../widgets/cards/cart_chip_join.dart';
 import '../widgets/custom_appbar.dart';

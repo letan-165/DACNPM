@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../data/models/Question.dart';
 import '../../data/models/Topic.dart';
-import '../../data/models/dto/QuizResponse.dart';
+import '../../data/models/dto/Response/QuizResponse.dart';
 import '../../routes/app_navigate.dart';
 import '../widgets/cards/card_quiz.dart';
 import '../widgets/custom_appbar.dart';

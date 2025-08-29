@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:frontend/data/models/dto/FlashCardResponse.dart';
+import 'package:frontend/data/models/dto/Response/FlashCardResponse.dart';
 
 import '../../data/models/CardItem.dart';
 import '../../data/models/Topic.dart';

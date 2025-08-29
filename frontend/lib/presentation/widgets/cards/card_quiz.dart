@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../data/models/dto/QuizResponse.dart';
+import '../../../data/models/dto/Response/QuizResponse.dart';
 
 class CardQuiz extends StatelessWidget {
   final QuizResponse quiz;

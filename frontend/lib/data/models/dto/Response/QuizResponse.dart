@@ -1,5 +1,5 @@
-import '../Question.dart';
-import '../Topic.dart';
+import '../../Question.dart';
+import '../../Topic.dart';
 
 class QuizResponse {
   final String quizID;
