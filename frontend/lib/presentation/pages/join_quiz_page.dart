@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/presentation/pages/do_quiz_page.dart';
 
-import '../../data/models/quiz.dart';
+import '../../data/models/dto/QuizResponse.dart';
 import '../../routes/app_navigate.dart';
 import '../widgets/cards/cart_chip_join.dart';
 import '../widgets/custom_appbar.dart';
 
 class JoinQuizPage extends StatelessWidget {
-  final Quiz quiz;
+  final QuizResponse quiz;
   const JoinQuizPage({super.key, required this.quiz});
 
   @override
@@ -99,7 +99,7 @@ class JoinQuizPage extends StatelessWidget {
                         ),
                         CartChipJoin(
                           icon: Icons.book,
-                          text: quiz.topic.name,
+                          text: quiz.topic?.name ?? "",
                         ),
                       ],
                     ),

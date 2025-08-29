@@ -12,12 +12,16 @@ dependencies:
     sdk: flutter
   intl: ^0.19.0
   cupertino_icons: ^1.0.8
+  dio: ^5.7.0
+  json_annotation: ^4.9.0
 
 dev_dependencies:
   flutter_launcher_icons: ^0.13.1
   flutter_test:
     sdk: flutter
   flutter_lints: ^5.0.0
+  build_runner: ^2.4.9
+  json_serializable: ^6.8.0
 
 # 🔥 cấu hình cho launcher icon (block mới)
 flutter_launcher_icons:

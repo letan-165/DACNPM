@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../../../data/models/quiz.dart';
+import '../../../data/models/dto/QuizResponse.dart';
 
 class CardQuiz extends StatelessWidget {
-  final Quiz quiz;
+  final QuizResponse quiz;
   final VoidCallback onTap;
 
   const CardQuiz({super.key, required this.quiz, required this.onTap});
@@ -47,7 +47,7 @@ class CardQuiz extends StatelessWidget {
                     ),
                     const SizedBox(height: 6),
                     Text(
-                      "${quiz.topic.name} • ${quiz.questions.length} câu hỏi",
+                      "${quiz.topic?.name} • ${quiz.questions.length} câu hỏi",
                       style: const TextStyle(
                         fontSize: 16,
                         color: Colors.black54,

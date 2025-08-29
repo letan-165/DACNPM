@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/presentation/pages/result_page.dart';
 
-import '../../data/models/quiz.dart';
-import '../../data/models/result.dart';
+import '../../data/models/Answer.dart';
+import '../../data/models/dto/QuizResponse.dart';
+import '../../data/models/dto/ResultResponse.dart';
 import '../../routes/app_navigate.dart';
 import '../widgets/cards/card_question.dart';
 import '../widgets/custom_appbar.dart';
 import '../widgets/forms/button_do_quiz.dart';
 
 class DoQuizPage extends StatefulWidget {
-  final Quiz quiz;
+  final QuizResponse quiz;
   final List<Answer>? answers;
   const DoQuizPage({super.key, required this.quiz, this.answers});
 
@@ -25,19 +26,19 @@ class _DoQuizPageState extends State<DoQuizPage> {
   Widget build(BuildContext context) {
     final question = widget.quiz.questions[currentIndex];
 
-    final result = Result(
+    final result = ResultResponse(
       resultID: "rs001",
       quiz: widget.quiz,
       studentID: "student123",
       answers: [
-        Answer(answerID: "1", answer: "Con mèo", isCorrect: false),
-        Answer(answerID: "2", answer: "Con mèo", isCorrect: true),
-        Answer(answerID: "3", answer: "Chó", isCorrect: false),
+        Answer(answerID: 1, answer: "Con mèo", correct: false),
+        Answer(answerID: 2, answer: "Con mèo", correct: true),
+        Answer(answerID: 3, answer: "Chó", correct: false),
       ],
       totalQuestion: 5,
       totalCorrect: 3,
       score: 6.0,
-      createdAt: DateTime.now().subtract(const Duration(minutes: 10)),
+      createAt: DateTime.now().subtract(const Duration(minutes: 10)),
       finish: DateTime.now(),
     );
 

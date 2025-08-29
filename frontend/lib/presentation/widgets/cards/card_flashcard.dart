@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-
-import '../../../data/models/flashcard.dart';
+import 'package:frontend/data/models/CardItem.dart';
 
 class FlashcardCard extends StatelessWidget {
-  final FlashCard card;
+  final CardItem card;
   final bool isBack;
 
   const FlashcardCard({

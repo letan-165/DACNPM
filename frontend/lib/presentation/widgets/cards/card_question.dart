@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../data/models/question.dart';
-import '../../../data/models/result.dart'; // Answer
+import '../../../data/models/Answer.dart';
+import '../../../data/models/Question.dart';
 import 'card_answer_select.dart';
 
 class CardQuestion extends StatelessWidget {
@@ -64,7 +64,7 @@ class CardQuestion extends StatelessWidget {
                     bool showRed = false;
 
                     if (isReview) {
-                      if (answer!.isCorrect) {
+                      if (answer!.correct) {
                         showGreen = (opt == answer!.answer);
                         showRed = false;
                       } else {
@@ -87,7 +87,7 @@ class CardQuestion extends StatelessWidget {
               // --- CÂU ĐIỀN TỪ ---
               if (question.options.isEmpty)
                 isReview
-                    ? (answer!.isCorrect
+                    ? (answer!.correct
                         // Đúng: chỉ hiện 1 ô xanh câu người học trả lời
                         ? _filledBox(
                             leading:

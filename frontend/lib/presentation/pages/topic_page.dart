@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/presentation/pages/quiz_page.dart';
 
-import '../../data/models/topic.dart';
+import '../../data/models/Topic.dart';
 import '../../routes/app_navigate.dart';
 import '../widgets/cards/card_topic.dart';
 import '../widgets/custom_appbar.dart';

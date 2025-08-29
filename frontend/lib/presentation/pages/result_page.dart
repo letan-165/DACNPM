@@ -3,13 +3,13 @@ import 'package:frontend/presentation/pages/do_quiz_page.dart';
 import 'package:frontend/presentation/pages/home_page.dart';
 import 'package:intl/intl.dart';
 
-import '../../data/models/result.dart';
+import '../../data/models/dto/ResultResponse.dart';
 import '../../routes/app_navigate.dart';
 import '../widgets/custom_appbar.dart';
 import '../widgets/forms/button_do_quiz.dart';
 
 class ResultPage extends StatelessWidget {
-  final Result result;
+  final ResultResponse result;
 
   const ResultPage({super.key, required this.result});
 
@@ -57,7 +57,7 @@ class ResultPage extends StatelessWidget {
                           size: 40, color: Colors.deepPurpleAccent),
                       const SizedBox(height: 10),
                       Text(
-                        result.quiz.title,
+                        result.quiz?.title ?? "",
                         style: const TextStyle(
                           fontSize: 26,
                           fontWeight: FontWeight.bold,
@@ -66,7 +66,7 @@ class ResultPage extends StatelessWidget {
                         textAlign: TextAlign.center,
                       ),
                       Text(
-                        result.quiz.topic.name,
+                        result.quiz?.topic?.name ?? "",
                         style:
                             const TextStyle(fontSize: 18, color: Colors.grey),
                         textAlign: TextAlign.center,
@@ -97,18 +97,18 @@ class ResultPage extends StatelessWidget {
                   InfoRow(
                     icon: Icons.play_circle,
                     label: "Bắt đầu",
-                    value: formatDate(result.createdAt),
+                    value: formatDate(result.createAt ?? DateTime.now()),
                   ),
                   InfoRow(
                     icon: Icons.stop_circle,
                     label: "Kết thúc",
-                    value: formatDate(result.finish),
+                    value: formatDate(result.finish ?? DateTime.now()),
                   ),
                   InfoRow(
                     icon: Icons.timer,
                     label: "Tổng thời gian",
                     value:
-                        "${formatDuration(result.finish.difference(result.createdAt))} / ${result.quiz.totalTime} phút",
+                        "${formatDuration(result.finish!.difference(result.createAt ?? DateTime.now()))} / ${result.quiz?.totalTime} phút",
                     valueColor: Colors.orange,
                   ),
 

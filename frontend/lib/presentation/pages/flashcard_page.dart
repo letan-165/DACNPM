@@ -1,10 +1,11 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:frontend/data/models/dto/FlashCardResponse.dart';
 
-import '../../data/models/flashcard.dart';
-import '../../data/models/topic.dart';
-import '../../data/models/word.dart';
+import '../../data/models/CardItem.dart';
+import '../../data/models/Topic.dart';
+import '../../data/models/Word.dart';
 import '../../routes/app_navigate.dart';
 import '../widgets/cards/card_flashcard.dart';
 import '../widgets/custom_appbar.dart';
@@ -21,7 +22,7 @@ class FlashcardPage extends StatefulWidget {
 
 class _FlashcardPageState extends State<FlashcardPage>
     with SingleTickerProviderStateMixin {
-  late List<FlashCard> cards;
+  late FlashCardResponse card;
   int currentIndex = 0;
 
   late AnimationController _flipController;
@@ -53,11 +54,13 @@ class _FlashcardPageState extends State<FlashcardPage>
       partOfSpeeches: ["verb"],
     );
 
-    cards = [
-      FlashCard(cardID: "1", studentID: "tan1", word: word1),
-      FlashCard(cardID: "2", studentID: "tan1", word: word2),
-    ];
-
+    card = FlashCardResponse(
+      studentID: "tan1",
+      cards: [
+        CardItem(word: word1, isMemorized: true),
+        CardItem(word: word2, isMemorized: false),
+      ],
+    );
     _flipController = AnimationController(
       duration: const Duration(milliseconds: 400),
       vsync: this,
@@ -75,7 +78,7 @@ class _FlashcardPageState extends State<FlashcardPage>
   }
 
   void _nextCard(bool remembered) {
-    if (currentIndex < cards.length - 1) {
+    if (currentIndex < card.cards.length - 1) {
       setState(() {
         currentIndex++;
         cardOffset = Offset.zero;
@@ -87,8 +90,8 @@ class _FlashcardPageState extends State<FlashcardPage>
       CustomSnackBar.show(
         context,
         message: remembered
-            ? "Đã nhớ ${cards[currentIndex - 1].word.word}"
-            : "Chưa nhớ ${cards[currentIndex - 1].word.word}",
+            ? "Đã nhớ ${card.cards[currentIndex - 1].word}"
+            : "Chưa nhớ ${card.cards[currentIndex - 1].word}",
         backgroundColor: remembered ? Colors.green : Colors.red,
       );
     } else {
@@ -113,7 +116,7 @@ class _FlashcardPageState extends State<FlashcardPage>
 
   @override
   Widget build(BuildContext context) {
-    final card = cards[currentIndex];
+    final card2 = card.cards[currentIndex];
 
     Color bgColor;
     if (cardOffset.dx > 0) {
@@ -204,12 +207,12 @@ class _FlashcardPageState extends State<FlashcardPage>
                                           transform: Matrix4.identity()
                                             ..rotateY(pi),
                                           child: FlashcardCard(
-                                            card: card,
+                                            card: card.cards[currentIndex],
                                             isBack: true,
                                           ),
                                         )
                                       : FlashcardCard(
-                                          card: card,
+                                          card: card.cards[currentIndex],
                                           isBack: false,
                                         ),
                                 ),

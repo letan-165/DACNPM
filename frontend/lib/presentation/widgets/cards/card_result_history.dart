@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../../data/models/result.dart';
+import '../../../data/models/dto/ResultResponse.dart';
 
 class ResultHistoryCard extends StatelessWidget {
-  final Result result;
+  final ResultResponse result;
   final VoidCallback onTap;
 
   const ResultHistoryCard({
@@ -28,7 +28,8 @@ class ResultHistoryCard extends StatelessWidget {
         ((result.totalCorrect / result.totalQuestion) * 100).toStringAsFixed(0);
 
     // thời gian thực tế làm bài
-    final Duration duration = result.finish.difference(result.createdAt);
+    final Duration? duration =
+        result.finish?.difference(result.createAt ?? DateTime.now());
 
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 8),
@@ -52,7 +53,7 @@ class ResultHistoryCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      result.quiz.title,
+                      result.quiz?.title ?? "",
                       style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -79,7 +80,7 @@ class ResultHistoryCard extends StatelessWidget {
                     ),
                     const SizedBox(height: 6),
                     Text(
-                      "Thời gian làm: ${formatDuration(duration)}",
+                      "Thời gian làm: ${formatDuration(duration!)}",
                       style: const TextStyle(fontSize: 13, color: Colors.grey),
                     ),
                   ],
