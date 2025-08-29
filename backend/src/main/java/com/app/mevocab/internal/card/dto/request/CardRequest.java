@@ -1,15 +1,14 @@
 package com.app.mevocab.internal.card.dto.request;
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-
-import java.util.List;
 
 @Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class CardSaveRequest {
-    String studentID;
-    List<CardRequest> cards;
+public class CardRequest {
+    String word;
+    boolean memorized;
 }

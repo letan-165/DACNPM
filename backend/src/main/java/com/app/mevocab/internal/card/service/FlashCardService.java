@@ -50,15 +50,18 @@ public class FlashCardService {
         String studentID = request.getStudentID();
         FlashCard flashCard = findByStudentID(request.getStudentID());
 
-        Word word = wordRepository.findById(request.getWord())
-                .orElseThrow(()-> new AppException(ErrorCode.VOCAB_INVALID));
+        for (var card : request.getCards()) {
+            Word word = wordRepository.findById(card.getWord())
+                    .orElseThrow(()-> new AppException(ErrorCode.VOCAB_INVALID));
 
-        Card card = Card.builder()
-                .word(word)
-                .isMemorized(request.isMemorized())
-                .build();
+            Card cardU = Card.builder()
+                    .word(word)
+                    .isMemorized(card.isMemorized())
+                    .build();
 
-        flashCard.getCards().put(word.getWord(), card);
+            flashCard.getCards().put(word.getWord(), cardU);
+        }
+
         return toFlashCardResponse(flashCardRepository.save(flashCard));
     }
 
