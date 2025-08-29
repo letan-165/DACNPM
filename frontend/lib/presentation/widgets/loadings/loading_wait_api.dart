@@ -45,7 +45,7 @@ class _LoadingWaitApiState extends State<LoadingWaitApi>
                 return LinearProgressIndicator(
                   value: null,
                   minHeight: 8,
-                  backgroundColor: Colors.white.withOpacity(0.3),
+                  backgroundColor: Colors.black.withOpacity(0.3),
                   valueColor: AlwaysStoppedAnimation(
                     HSVColor.fromAHSV(1, (_animation.value * 360) % 360, 1, 1)
                         .toColor(),
@@ -58,7 +58,7 @@ class _LoadingWaitApiState extends State<LoadingWaitApi>
             const SizedBox(height: 16),
             Text(
               widget.text!,
-              style: const TextStyle(color: Colors.white, fontSize: 16),
+              style: const TextStyle(color: Colors.black, fontSize: 16),
             ),
           ]
         ],

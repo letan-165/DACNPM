@@ -44,7 +44,7 @@ class SummaryPage extends StatelessWidget {
                 subtitle: "120 từ vựng",
                 color: Colors.orange,
                 onTap: () {
-                  AppNavigator.navigateTo(context, FlashcardPage());
+                  AppNavigator.navigateTo(context, FlashcardPage(topic: ""));
                 },
               ),
               const SizedBox(height: 20),
@@ -54,7 +54,7 @@ class SummaryPage extends StatelessWidget {
                 subtitle: "80 từ vựng",
                 color: Colors.red,
                 onTap: () {
-                  AppNavigator.navigateTo(context, FlashcardPage());
+                  AppNavigator.navigateTo(context, FlashcardPage(topic: ""));
                 },
               ),
               const SizedBox(height: 20),

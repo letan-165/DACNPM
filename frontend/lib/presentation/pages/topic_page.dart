@@ -35,18 +35,23 @@ class _TopicPageState extends State<TopicPage> {
         topics = data;
         loading = false;
       });
-      print("Fetch topics thành công: $topics");
     } catch (e) {
       setState(() {
         loading = false;
       });
-      print("Lỗi fetch topics: $e");
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final page = widget.mode == "quiz" ? QuizPage() : FlashcardPage();
+    void handleOnClick(String topic) {
+      Widget page =
+          widget.mode == "quiz" ? QuizPage() : FlashcardPage(topic: topic);
+
+      AppNavigator.navigateTo(context, page);
+    }
+
+    ;
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -72,9 +77,7 @@ class _TopicPageState extends State<TopicPage> {
                     title: topic.name,
                     subtitle: topic.description,
                     color: Colors.orange,
-                    onTap: () {
-                      AppNavigator.navigateTo(context, page);
-                    },
+                    onTap: () => handleOnClick(topic.name),
                   );
                 },
               ),

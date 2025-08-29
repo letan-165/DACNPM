@@ -1,233 +1,89 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:frontend/data/models/dto/Response/FlashCardResponse.dart';
+import 'package:frontend/data/api/word_api.dart';
+import 'package:frontend/data/models/CardItem.dart';
+import 'package:frontend/presentation/pages/topic_page.dart';
 
-import '../../data/models/CardItem.dart';
-import '../../data/models/Topic.dart';
 import '../../data/models/Word.dart';
 import '../../routes/app_navigate.dart';
-import '../widgets/cards/card_flashcard.dart';
 import '../widgets/custom_appbar.dart';
 import '../widgets/dialogs/completion_dialog.dart';
+import '../widgets/flashcard_widget.dart';
+import '../widgets/loadings/loading_wait_api.dart';
 import '../widgets/snackbars/custom_snackbar.dart';
-import 'home_page.dart';
 
 class FlashcardPage extends StatefulWidget {
-  const FlashcardPage({super.key});
+  final String topic;
+
+  const FlashcardPage({
+    super.key,
+    required this.topic,
+  });
 
   @override
   State<FlashcardPage> createState() => _FlashcardPageState();
 }
 
-class _FlashcardPageState extends State<FlashcardPage>
-    with SingleTickerProviderStateMixin {
-  late FlashCardResponse card;
-  int currentIndex = 0;
-
-  late AnimationController _flipController;
-  late Animation<double> _flipAnim;
-  bool _showBack = false;
-
-  Offset cardOffset = Offset.zero;
-  double cardAngle = 0.0;
+class _FlashcardPageState extends State<FlashcardPage> {
+  final WordApi wordApi = WordApi();
+  List<CardItem> cards = [];
+  List<Word> words = [];
+  bool loading = true;
 
   @override
   void initState() {
     super.initState();
-
-    final topic = Topic(name: "Animals", description: "This is Animals");
-    final word1 = Word(
-      word: "Dog",
-      translation: "Con chó",
-      topic: topic,
-      phonetic: "/dɒg/",
-      audio: "https://.../dog.mp3",
-      partOfSpeeches: ["noun"],
-    );
-    final word2 = Word(
-      word: "Run",
-      translation: "Chạy",
-      topic: topic,
-      phonetic: "/rʌn/",
-      audio: "https://.../run.mp3",
-      partOfSpeeches: ["verb"],
-    );
-
-    card = FlashCardResponse(
-      studentID: "tan1",
-      cards: [
-        CardItem(word: word1, isMemorized: true),
-        CardItem(word: word2, isMemorized: false),
-      ],
-    );
-    _flipController = AnimationController(
-      duration: const Duration(milliseconds: 400),
-      vsync: this,
-    );
-    _flipAnim = Tween<double>(begin: 0, end: 1).animate(_flipController);
+    fetchWords();
   }
 
-  void _toggleCard() {
-    if (_showBack) {
-      _flipController.reverse();
-    } else {
-      _flipController.forward();
-    }
-    _showBack = !_showBack;
-  }
-
-  void _nextCard(bool remembered) {
-    if (currentIndex < card.cards.length - 1) {
+  Future<void> fetchWords() async {
+    try {
+      final data = await wordApi.findAllByTopic(widget.topic);
       setState(() {
-        currentIndex++;
-        cardOffset = Offset.zero;
-        cardAngle = 0;
-        _showBack = false;
-        _flipController.reset();
+        words = data;
+        loading = false;
       });
-
-      CustomSnackBar.show(
-        context,
-        message: remembered
-            ? "Đã nhớ ${card.cards[currentIndex - 1].word}"
-            : "Chưa nhớ ${card.cards[currentIndex - 1].word}",
-        backgroundColor: remembered ? Colors.green : Colors.red,
-      );
-    } else {
-      showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (_) => CompletionDialog(
-          onGoToStats: () {
-            Navigator.pop(context);
-            AppNavigator.navigateTo(context, HomePage());
-          },
-        ),
-      );
-    }
-  }
-
-  @override
-  void dispose() {
-    _flipController.dispose();
-    super.dispose();
+    } catch (e) {}
   }
 
   @override
   Widget build(BuildContext context) {
-    final card2 = card.cards[currentIndex];
-
-    Color bgColor;
-    if (cardOffset.dx > 0) {
-      bgColor = Color.lerp(Colors.white, Colors.green, cardOffset.dx / 300)!;
-    } else if (cardOffset.dx < 0) {
-      bgColor = Color.lerp(Colors.white, Colors.red, -cardOffset.dx / 300)!;
-    } else {
-      bgColor = Colors.white;
-    }
-
     return Scaffold(
-      appBar: const CustomAppBar(title: "Lật thẻ"),
       extendBodyBehindAppBar: true,
-      body: Container(
-        color: bgColor,
-        child: SafeArea(
-          child: Column(
-            children: [
-              SizedBox(
-                height: 50,
-                child: Center(
-                  child: AnimatedOpacity(
-                    duration: const Duration(milliseconds: 200),
-                    opacity: cardOffset.dx.abs() > 120 ? 1 : 0,
-                    child: Text(
-                      cardOffset.dx > 0
-                          ? "✅ Tôi đã nhớ từ này"
-                          : cardOffset.dx < 0
-                              ? "❌ Tôi chưa nhớ"
-                              : "",
-                      style: TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
-                        color: cardOffset.dx > 0
-                            ? Colors.green.shade700
-                            : Colors.red.shade700,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+      appBar: const CustomAppBar(title: "Lật thẻ"),
+      body: SafeArea(
+        child: loading
+            ? const LoadingWaitApi(text: "Đang tải dữ liệu...")
+            : FlashcardWidget(
+                words: words,
+                onCardSwiped: (card) {
+                  CustomSnackBar.show(
+                    context,
+                    message: card.isMemorized
+                        ? "Đã nhớ ${card.word.word}"
+                        : "Chưa nhớ ${card.word.word}",
+                    backgroundColor:
+                        card.isMemorized ? Colors.green : Colors.red,
+                  );
+                  setState(() {
+                    cards.add(card);
+                  });
+                  if (words.indexOf(card.word) == words.length - 1) {
+                    showDialog(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (_) => CompletionDialog(
+                        onGoToStats: () {
+                          //TODO: Navigate to stats page
 
-              //flashcard
-              Padding(
-                padding: const EdgeInsets.only(top: 80),
-                child: Center(
-                  child: Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      GestureDetector(
-                        onTap: _toggleCard,
-                        onPanUpdate: (details) {
-                          setState(() {
-                            cardOffset += details.delta;
-                            cardAngle = 0.0015 * cardOffset.dx;
-                          });
+                          Navigator.pop(context);
+                          AppNavigator.navigateTo(
+                              context, TopicPage(mode: "flashcard"));
                         },
-                        onPanEnd: (details) {
-                          if (cardOffset.dx > 120) {
-                            _nextCard(true);
-                          } else if (cardOffset.dx < -120) {
-                            _nextCard(false);
-                          } else {
-                            setState(() {
-                              cardOffset = Offset.zero;
-                              cardAngle = 0;
-                            });
-                          }
-                        },
-                        child: AnimatedBuilder(
-                          animation: _flipAnim,
-                          builder: (context, child) {
-                            final angle = _flipAnim.value * pi;
-                            final isBack = angle > pi / 2;
-
-                            return Transform.translate(
-                              offset: cardOffset,
-                              child: Transform.rotate(
-                                angle: cardAngle,
-                                child: Transform(
-                                  alignment: Alignment.center,
-                                  transform: Matrix4.identity()
-                                    ..setEntry(3, 2, 0.001)
-                                    ..rotateY(angle),
-                                  child: isBack
-                                      ? Transform(
-                                          alignment: Alignment.center,
-                                          transform: Matrix4.identity()
-                                            ..rotateY(pi),
-                                          child: FlashcardCard(
-                                            card: card.cards[currentIndex],
-                                            isBack: true,
-                                          ),
-                                        )
-                                      : FlashcardCard(
-                                          card: card.cards[currentIndex],
-                                          isBack: false,
-                                        ),
-                                ),
-                              ),
-                            );
-                          },
-                        ),
                       ),
-                    ],
-                  ),
-                ),
+                    );
+                  }
+                },
               ),
-            ],
-          ),
-        ),
       ),
     );
   }

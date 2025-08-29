@@ -16,7 +16,7 @@ class WordApi {
 
   Future<List<Word>> findAllByTopic(String topic) {
     return ApiClient.requestList<Word>(
-      (dio) => dio.get("${Endpoints.word}/$topic"),
+      (dio) => dio.get("${Endpoints.word}/topic/$topic"),
     );
   }
 

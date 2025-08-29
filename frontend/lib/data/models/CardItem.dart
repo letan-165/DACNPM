@@ -2,7 +2,7 @@ import 'Word.dart';
 
 class CardItem {
   final Word word;
-  final bool isMemorized;
+  late final bool isMemorized;
 
   CardItem({
     required this.word,

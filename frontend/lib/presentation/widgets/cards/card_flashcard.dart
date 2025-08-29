@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/data/models/CardItem.dart';
+import 'package:frontend/data/models/Word.dart';
 
 class FlashcardCard extends StatelessWidget {
-  final CardItem card;
+  final Word word;
   final bool isBack;
 
   const FlashcardCard({
     super.key,
-    required this.card,
+    required this.word,
     this.isBack = false,
   });
 
@@ -50,7 +50,7 @@ class FlashcardCard extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          card.word.word,
+          word.word,
           style: const TextStyle(
             fontSize: 40,
             fontWeight: FontWeight.bold,
@@ -59,7 +59,7 @@ class FlashcardCard extends StatelessWidget {
         ),
         const SizedBox(height: 12),
         Text(
-          card.word.phonetic,
+          word.phonetic,
           style: const TextStyle(fontSize: 20, color: Colors.white70),
         ),
         const SizedBox(height: 24),
@@ -85,7 +85,7 @@ class FlashcardCard extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          card.word.translation,
+          word.translation,
           style: const TextStyle(
             fontSize: 34,
             fontWeight: FontWeight.w600,
@@ -94,7 +94,7 @@ class FlashcardCard extends StatelessWidget {
         ),
         const SizedBox(height: 16),
         Text(
-          "Loại từ: ${card.word.partOfSpeeches.join(", ")}",
+          "Loại từ: ${word.partOfSpeeches.join(", ")}",
           style: const TextStyle(fontSize: 18, color: Colors.black87),
         ),
       ],
