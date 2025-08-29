@@ -1,4 +1,4 @@
-import '../Answer.dart';
+import '../../Answer.dart';
 import 'QuizResponse.dart';
 
 class ResultResponse {

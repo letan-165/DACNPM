@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../data/models/dto/ResultResponse.dart';
+import '../../../data/models/dto/Response/ResultResponse.dart';
 
 class ResultHistoryCard extends StatelessWidget {
   final ResultResponse result;

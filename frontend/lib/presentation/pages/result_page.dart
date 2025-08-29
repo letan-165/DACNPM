@@ -3,7 +3,7 @@ import 'package:frontend/presentation/pages/do_quiz_page.dart';
 import 'package:frontend/presentation/pages/home_page.dart';
 import 'package:intl/intl.dart';
 
-import '../../data/models/dto/ResultResponse.dart';
+import '../../data/models/dto/Response/ResultResponse.dart';
 import '../../routes/app_navigate.dart';
 import '../widgets/custom_appbar.dart';
 import '../widgets/forms/button_do_quiz.dart';

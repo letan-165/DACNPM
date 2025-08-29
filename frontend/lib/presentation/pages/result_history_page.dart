@@ -5,8 +5,8 @@ import 'package:frontend/routes/app_navigate.dart';
 import '../../data/models/Answer.dart';
 import '../../data/models/Question.dart';
 import '../../data/models/Topic.dart';
-import '../../data/models/dto/QuizResponse.dart';
-import '../../data/models/dto/ResultResponse.dart';
+import '../../data/models/dto/Response/QuizResponse.dart';
+import '../../data/models/dto/Response/ResultResponse.dart';
 import '../widgets/cards/card_result_history.dart';
 import '../widgets/custom_appbar.dart';
 

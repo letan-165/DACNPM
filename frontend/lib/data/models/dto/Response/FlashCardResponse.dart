@@ -1,4 +1,4 @@
-import '../CardItem.dart';
+import '../../CardItem.dart';
 
 class FlashCardResponse {
   final String studentID;
