@@ -16,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -32,6 +33,9 @@ public class WordService {
     }
 
     public Word suggest(WordRequest request, boolean isSave){
+        if(isSave && wordRepository.existsById(request.getWord()))
+            throw new AppException(ErrorCode.WORD_EXISTS);
+
         var topic = topicRepository.findById(request.getTopic())
                         .orElseThrow(()->new AppException(ErrorCode.TOPIC_NO_EXISTS));
 
@@ -48,9 +52,12 @@ public class WordService {
 
         var dictionary =  dictionaryResponse.get(0);
         for (var res : dictionary.getPhonetics()) {
-            if (res.getText()!=null && res.getAudio()!=null) {
-                phonetic = res.getText();
-                audio = res.getAudio();
+            String t = res.getText();
+            String a = res.getAudio();
+
+            if (t != null && !t.isEmpty() && a != null && !a.isEmpty()) {
+                phonetic = t;
+                audio = a;
                 break;
             }
         }
