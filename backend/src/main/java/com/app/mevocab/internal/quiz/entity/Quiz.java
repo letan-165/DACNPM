@@ -24,6 +24,8 @@ public class Quiz {
     Topic topic;
     String title;
     int totalTime;
+
+    @Builder.Default
     Map<Integer,Question> questions = new HashMap<>();
     Instant updateAt;
 }

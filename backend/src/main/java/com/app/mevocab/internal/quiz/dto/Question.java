@@ -6,7 +6,7 @@ import lombok.experimental.FieldDefaults;
 
 import java.util.HashSet;
 import java.util.List;
-@Builder
+@Builder(toBuilder = true)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
