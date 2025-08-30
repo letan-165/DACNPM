@@ -4,6 +4,7 @@ import 'package:frontend/presentation/pages/home_page.dart';
 import 'package:frontend/presentation/pages/register_page.dart';
 
 import '../../data/api/auth_api.dart';
+import '../../data/storage/login_storage.dart';
 import '../../routes/app_navigate.dart';
 import '../widgets/forms/custom_text_field.dart';
 import '../widgets/loadings/loading_page.dart';
@@ -37,7 +38,8 @@ class _LoginPageState extends State<LoginPage> {
     setState(() => isLoading = true);
 
     try {
-      final user = await authApi.login(request);
+      final response = await authApi.login(request);
+      LoginStorage.saveLogin(response);
 
       if (!mounted) return;
       setState(() => isLoading = false);

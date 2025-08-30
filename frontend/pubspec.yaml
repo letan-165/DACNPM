@@ -16,6 +16,7 @@ dependencies:
   json_annotation: ^4.9.0
   flip_card: ^0.6.0
   swipable_stack: ^0.2.0
+  shared_preferences: ^2.2.3
 
 dev_dependencies:
   flutter_launcher_icons: ^0.13.1

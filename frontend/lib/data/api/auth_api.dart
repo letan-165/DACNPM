@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:frontend/data/models/dto/Response/LoginResponse.dart';
 
 import '../models/dto/Request/LoginRequest.dart';
 import '../models/dto/Request/UserSignUpRequest.dart';
@@ -18,8 +19,8 @@ class AuthApi {
     );
   }
 
-  Future<UserResponse> login(LoginRequest request) {
-    return ApiClient.request<UserResponse>(
+  Future<LoginResponse> login(LoginRequest request) {
+    return ApiClient.request<LoginResponse>(
       (dio) => dio.post(
         "${Endpoints.auth}/login",
         data: request.toJson(),

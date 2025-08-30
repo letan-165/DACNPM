@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/data/api/flashcard_api.dart';
 import 'package:frontend/data/api/word_api.dart';
-import 'package:frontend/data/models/CardItem.dart';
+import 'package:frontend/data/models/dto/Request/CardSaveRequest.dart';
 import 'package:frontend/presentation/pages/topic_page.dart';
 
 import '../../data/models/Word.dart';
+import '../../data/storage/login_storage.dart';
 import '../../routes/app_navigate.dart';
 import '../widgets/custom_appbar.dart';
 import '../widgets/dialogs/completion_dialog.dart';
@@ -25,7 +27,8 @@ class FlashcardPage extends StatefulWidget {
 
 class _FlashcardPageState extends State<FlashcardPage> {
   final WordApi wordApi = WordApi();
-  List<CardItem> cards = [];
+  final FlashCardApi flashCardApi = FlashCardApi();
+  List<CardRequest> cards = [];
   List<Word> words = [];
   bool loading = true;
 
@@ -43,6 +46,17 @@ class _FlashcardPageState extends State<FlashcardPage> {
         loading = false;
       });
     } catch (e) {}
+  }
+
+  Future<void> handleCompletion() async {
+    final login = await LoginStorage.getLogin(context);
+    final studentID = login.userID;
+    final request = CardSaveRequest(studentID: studentID, cards: cards);
+    try {
+      await flashCardApi.save(request);
+    } catch (e) {
+      CustomSnackBar.show(context, message: "Lưu thất bại: $e");
+    }
   }
 
   @override
@@ -65,16 +79,16 @@ class _FlashcardPageState extends State<FlashcardPage> {
                         card.isMemorized ? Colors.green : Colors.red,
                   );
                   setState(() {
-                    cards.add(card);
+                    cards.add(CardRequest(
+                        word: card.word.word, memorized: card.isMemorized));
                   });
                   if (words.indexOf(card.word) == words.length - 1) {
+                    handleCompletion();
                     showDialog(
                       context: context,
                       barrierDismissible: false,
                       builder: (_) => CompletionDialog(
                         onGoToStats: () {
-                          //TODO: Navigate to stats page
-
                           Navigator.pop(context);
                           AppNavigator.navigateTo(
                               context, TopicPage(mode: "flashcard"));

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/presentation/pages/home_page.dart';
+
+import '../../routes/app_navigate.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
@@ -19,11 +22,12 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         leading: showBack
             ? IconButton(
                 icon: const Icon(
-                  Icons.arrow_back,
+                  Icons.home,
                   size: 40,
                   color: Colors.black,
                 ),
-                onPressed: onBack ?? () => Navigator.pop(context),
+                onPressed: onBack ??
+                    () => AppNavigator.navigateTo(context, HomePage()),
               )
             : null,
         title: Text(

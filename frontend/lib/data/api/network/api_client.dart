@@ -7,6 +7,7 @@ import '../../models/dto/Response/FlashCardResponse.dart';
 import '../../models/dto/Response/QuizResponse.dart';
 import '../../models/dto/Response/ResultResponse.dart';
 import '../../models/dto/Response/UserResponse.dart';
+import '../../models/dto/Response/LoginResponse.dart';
 import 'endpoints.dart';
 
 typedef FromJson<T> = T Function(Map<String, dynamic> json);
@@ -27,6 +28,7 @@ class ApiClient {
     QuizResponse: (json) => QuizResponse.fromJson(json),
     ResultResponse: (json) => ResultResponse.fromJson(json),
     FlashCardResponse: (json) => FlashCardResponse.fromJson(json),
+    LoginResponse: (json) => LoginResponse.fromJson(json),
   };
 
   /// Request object đơn
