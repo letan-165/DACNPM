@@ -14,6 +14,12 @@ class FlashCardApi {
     );
   }
 
+  Future<FlashCardResponse> findUnmemorizedCards(String studentID) {
+    return ApiClient.request<FlashCardResponse>(
+      (dio) => dio.get("${Endpoints.flashcard}/unmemorized/$studentID"),
+    );
+  }
+
   Future<FlashCardResponse> save(CardSaveRequest request) {
     return ApiClient.request<FlashCardResponse>(
       (dio) => dio.post(

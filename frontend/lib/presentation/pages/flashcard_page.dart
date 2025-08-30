@@ -15,10 +15,12 @@ import '../widgets/snackbars/custom_snackbar.dart';
 
 class FlashcardPage extends StatefulWidget {
   final String topic;
+  final bool summary;
 
   const FlashcardPage({
     super.key,
-    required this.topic,
+    this.topic = "",
+    this.summary = false,
   });
 
   @override
@@ -35,7 +37,7 @@ class _FlashcardPageState extends State<FlashcardPage> {
   @override
   void initState() {
     super.initState();
-    fetchWords();
+    widget.summary ? fetchSummary() : fetchWords();
   }
 
   Future<void> fetchWords() async {
@@ -43,6 +45,17 @@ class _FlashcardPageState extends State<FlashcardPage> {
       final data = await wordApi.findAllByTopic(widget.topic);
       setState(() {
         words = data;
+        loading = false;
+      });
+    } catch (e) {}
+  }
+
+  Future<void> fetchSummary() async {
+    final login = await LoginStorage.getLogin(context);
+    try {
+      final data = await flashCardApi.findUnmemorizedCards(login.userID);
+      setState(() {
+        words = data.cards.map((e) => e.word).toList();
         loading = false;
       });
     } catch (e) {}

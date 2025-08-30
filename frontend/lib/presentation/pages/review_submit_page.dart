@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/data/models/dto/Response/ResultResponse.dart';
-import 'package:frontend/presentation/pages/result_history_page.dart';
+import 'package:frontend/presentation/pages/result_page.dart';
 
 import '../../data/api/result_api.dart';
 import '../../data/models/dto/AnswerItem.dart';
@@ -25,7 +25,7 @@ class ReviewSubmitPage extends StatelessWidget {
 
     Future<void> handleFinish() async {
       final response = await resultApi.finish(result.resultID);
-      AppNavigator.navigateTo(context, ResultHistoryPage());
+      AppNavigator.navigateTo(context, ResultPage(result: response));
     }
 
     return Scaffold(

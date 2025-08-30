@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/data/models/Word.dart';
+import 'package:just_audio/just_audio.dart';
 
-class FlashcardCard extends StatelessWidget {
+class FlashcardCard extends StatefulWidget {
   final Word word;
   final bool isBack;
 
@@ -12,7 +13,38 @@ class FlashcardCard extends StatelessWidget {
   });
 
   @override
+  State<FlashcardCard> createState() => _FlashcardCardState();
+}
+
+class _FlashcardCardState extends State<FlashcardCard> {
+  late AudioPlayer _audioPlayer;
+
+  @override
+  void initState() {
+    super.initState();
+    _audioPlayer = AudioPlayer();
+  }
+
+  @override
+  void dispose() {
+    _audioPlayer.dispose();
+    super.dispose();
+  }
+
+  Future<void> _playAudio() async {
+    try {
+      await _audioPlayer.setUrl(widget.word.audio ?? '');
+      _audioPlayer.play();
+    } catch (e) {
+      debugPrint('Lỗi phát âm thanh: $e');
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final isBack = widget.isBack;
+    final word = widget.word;
+
     return SizedBox(
       width: 320,
       height: 440,
@@ -44,8 +76,9 @@ class FlashcardCard extends StatelessWidget {
     );
   }
 
-  /// Mặt trước của thẻ
   Widget _buildFrontContent() {
+    final word = widget.word;
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -63,24 +96,28 @@ class FlashcardCard extends StatelessWidget {
           style: const TextStyle(fontSize: 20, color: Colors.white70),
         ),
         const SizedBox(height: 24),
-        Container(
-          padding: const EdgeInsets.all(16),
-          decoration: const BoxDecoration(
-            shape: BoxShape.circle,
-            gradient: LinearGradient(
-              colors: [Color(0xFF74EBD5), Color(0xFF9FACE6)],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
+        GestureDetector(
+          onTap: _playAudio,
+          child: Container(
+            padding: const EdgeInsets.all(16),
+            decoration: const BoxDecoration(
+              shape: BoxShape.circle,
+              gradient: LinearGradient(
+                colors: [Color(0xFF74EBD5), Color(0xFF9FACE6)],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
             ),
+            child: const Icon(Icons.volume_up, size: 36, color: Colors.white),
           ),
-          child: const Icon(Icons.volume_up, size: 36, color: Colors.white),
         ),
       ],
     );
   }
 
-  /// Mặt sau của thẻ
   Widget _buildBackContent() {
+    final word = widget.word;
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/presentation/pages/result_history_page.dart';
+import 'package:frontend/presentation/pages/vocab_history_page.dart';
 
 import '../../routes/app_navigate.dart';
 import '../widgets/cards/card_topic.dart';
@@ -44,17 +45,18 @@ class SummaryPage extends StatelessWidget {
                 subtitle: "120 từ vựng",
                 color: Colors.orange,
                 onTap: () {
-                  AppNavigator.navigateTo(context, FlashcardPage(topic: ""));
+                  AppNavigator.navigateTo(context, VocabHistoryPage());
                 },
               ),
               const SizedBox(height: 20),
               CardTopic(
                 icon: Icons.book,
-                title: "Từ vựng chưa nắm rõ",
+                title: "Học tiếp từ chưa nhớ",
                 subtitle: "80 từ vựng",
                 color: Colors.red,
                 onTap: () {
-                  AppNavigator.navigateTo(context, FlashcardPage(topic: ""));
+                  AppNavigator.navigateTo(
+                      context, FlashcardPage(topic: "", summary: true));
                 },
               ),
               const SizedBox(height: 20),

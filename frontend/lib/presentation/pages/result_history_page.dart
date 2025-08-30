@@ -2,87 +2,48 @@ import 'package:flutter/material.dart';
 import 'package:frontend/presentation/pages/result_page.dart';
 import 'package:frontend/routes/app_navigate.dart';
 
-import '../../data/models/Answer.dart';
-import '../../data/models/Question.dart';
-import '../../data/models/Topic.dart';
-import '../../data/models/dto/Response/QuizResponse.dart';
+import '../../data/api/result_api.dart';
 import '../../data/models/dto/Response/ResultResponse.dart';
+import '../../data/storage/login_storage.dart';
 import '../widgets/cards/card_result_history.dart';
 import '../widgets/custom_appbar.dart';
 
-class ResultHistoryPage extends StatelessWidget {
+class ResultHistoryPage extends StatefulWidget {
   const ResultHistoryPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final results = <ResultResponse>[
-      ResultResponse(
-        resultID: "r1",
-        quiz: QuizResponse(
-          quizID: "q1",
-          title: "Ôn tập Unit 1",
-          topic: Topic(description: "t1", name: "Family"),
-          questions: [
-            Question(
-              questionID: 1,
-              title: "Từ nào nghĩa là 'bạn bè'?",
-              options: ["friend", "house", "school", "dog"],
-              correct: "friend",
-              type: "SELECT",
-            ),
-            Question(
-              questionID: 2,
-              title: "Điền vào chỗ trống: My ___ is 40 years old.",
-              options: [],
-              correct: "father",
-              type: "ENTER",
-            ),
-          ],
-          totalTime: 15,
-          updateAt: DateTime.now(),
-        ),
-        studentID: "HS001",
-        answers: [
-          Answer(answerID: 1, answer: "friend", correct: true),
-          Answer(answerID: 2, answer: "mother", correct: false),
-        ],
-        totalQuestion: 2,
-        totalCorrect: 1,
-        score: 5.0,
-        createAt: DateTime.now().subtract(const Duration(minutes: 20)),
-        finish: DateTime.now().subtract(const Duration(minutes: 5)),
-      ),
-      ResultResponse(
-        resultID: "r2",
-        quiz: QuizResponse(
-          quizID: "q2",
-          title: "Ôn tập Unit 2",
-          topic: Topic(description: "t2", name: "School"),
-          questions: [
-            Question(
-              questionID: 1,
-              title: "Từ nào nghĩa là 'trường học'?",
-              options: ["book", "school", "pen", "teacher"],
-              correct: "school",
-              type: "SELECT",
-            ),
-          ],
-          totalTime: 10,
-          updateAt: DateTime.now(),
-        ),
-        studentID: "HS001",
-        answers: [
-          Answer(answerID: 3, answer: "school", correct: true),
-        ],
-        totalQuestion: 1,
-        totalCorrect: 1,
-        score: 10.0,
-        createAt: DateTime.now().subtract(const Duration(days: 1, hours: 2)),
-        finish: DateTime.now()
-            .subtract(const Duration(days: 1, hours: 1, minutes: 50)),
-      ),
-    ];
+  State<ResultHistoryPage> createState() => _ResultHistoryPageState();
+}
 
+class _ResultHistoryPageState extends State<ResultHistoryPage> {
+  final ResultApi resultApi = ResultApi();
+  List<ResultResponse> results = [];
+  bool loading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchResults();
+  }
+
+  Future<void> fetchResults() async {
+    final login = await LoginStorage.getLogin(context);
+    final studentID = login.userID;
+    try {
+      final data = await resultApi.findAllByStudentID(studentID);
+      setState(() {
+        results = data;
+        loading = false;
+      });
+    } catch (e) {
+      setState(() {
+        loading = false;
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: CustomAppBar(title: "Lịch sử làm bài"),
