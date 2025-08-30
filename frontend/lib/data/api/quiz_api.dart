@@ -16,6 +16,12 @@ class QuizApi {
     );
   }
 
+  Future<List<QuizResponse>> findAllByTopic(String topic) {
+    return ApiClient.requestList<QuizResponse>(
+      (dio) => dio.get("${Endpoints.quiz}/topic/$topic"),
+    );
+  }
+
   Future<QuizResponse> save(QuizSaveRequest request) {
     return ApiClient.request<QuizResponse>(
       (dio) => dio.post(

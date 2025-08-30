@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/data/models/dto/Request/JoinQuizRequest.dart';
+import 'package:frontend/data/storage/submit_storage.dart';
 import 'package:frontend/presentation/pages/do_quiz_page.dart';
 
+import '../../data/api/result_api.dart';
 import '../../data/models/dto/Response/QuizResponse.dart';
+import '../../data/storage/login_storage.dart';
 import '../../routes/app_navigate.dart';
 import '../widgets/cards/cart_chip_join.dart';
 import '../widgets/custom_appbar.dart';
@@ -13,6 +17,16 @@ class JoinQuizPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final questionCount = quiz.questions.length;
+
+    final ResultApi resultApi = ResultApi();
+    Future<void> handleJoin() async {
+      final login = await LoginStorage.getLogin(context);
+      final request =
+          JoinQuizRequest(studentID: login.userID, quizID: quiz.quizID);
+      final response = await resultApi.join(request);
+      SubmitStorage.create(response.resultID);
+      AppNavigator.navigateTo(context, DoQuizPage(quiz: quiz));
+    }
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -110,10 +124,7 @@ class JoinQuizPage extends StatelessWidget {
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton.icon(
-                        onPressed: () {
-                          AppNavigator.navigateTo(
-                              context, DoQuizPage(quiz: quiz));
-                        },
+                        onPressed: () => handleJoin(),
                         icon: const Icon(Icons.play_arrow, color: Colors.white),
                         label: const Text(
                           "Tham gia ngay",

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/presentation/pages/result_page.dart';
+import 'package:frontend/data/api/result_api.dart';
+import 'package:frontend/data/storage/submit_storage.dart';
+import 'package:frontend/presentation/pages/result_history_page.dart';
+import 'package:frontend/presentation/pages/review_submit_page.dart';
 
 import '../../data/models/Answer.dart';
 import '../../data/models/dto/Response/QuizResponse.dart';
-import '../../data/models/dto/Response/ResultResponse.dart';
 import '../../routes/app_navigate.dart';
 import '../widgets/cards/card_question.dart';
 import '../widgets/custom_appbar.dart';
@@ -26,21 +28,25 @@ class _DoQuizPageState extends State<DoQuizPage> {
   Widget build(BuildContext context) {
     final question = widget.quiz.questions[currentIndex];
 
-    final result = ResultResponse(
-      resultID: "rs001",
-      quiz: widget.quiz,
-      studentID: "student123",
-      answers: [
-        Answer(answerID: 1, answer: "Con mèo", correct: false),
-        Answer(answerID: 2, answer: "Con mèo", correct: true),
-        Answer(answerID: 3, answer: "Chó", correct: false),
-      ],
-      totalQuestion: 5,
-      totalCorrect: 3,
-      score: 6.0,
-      createAt: DateTime.now().subtract(const Duration(minutes: 10)),
-      finish: DateTime.now(),
-    );
+    Future<void> handleSubmit() async {
+      final answer = selectedAnswer;
+      if (answer == null) return;
+
+      SubmitStorage.save(question.questionID, answer);
+    }
+
+    final ResultApi resultApi = ResultApi();
+    Future<void> handleReview() async {
+      handleSubmit();
+      if (widget.answers == null) {
+        final request = await SubmitStorage.getRequest();
+        final response = await resultApi.submit(request!);
+
+        AppNavigator.navigateTo(context, ReviewSubmitPage(result: response));
+      } else {
+        AppNavigator.navigateTo(context, ResultHistoryPage());
+      }
+    }
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -58,7 +64,6 @@ class _DoQuizPageState extends State<DoQuizPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Thanh tiến trình
               LinearProgressIndicator(
                 value: (currentIndex + 1) / widget.quiz.questions.length,
                 backgroundColor: Colors.white24,
@@ -67,7 +72,6 @@ class _DoQuizPageState extends State<DoQuizPage> {
                 borderRadius: BorderRadius.circular(10),
               ),
               const SizedBox(height: 20),
-
               CardQuestion(
                 answer: widget.answers?[currentIndex],
                 question: question,
@@ -80,7 +84,6 @@ class _DoQuizPageState extends State<DoQuizPage> {
                   });
                 },
               ),
-
               const SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -90,6 +93,7 @@ class _DoQuizPageState extends State<DoQuizPage> {
                           label: "Trước",
                           icon: Icons.arrow_back,
                           onPressed: () {
+                            handleSubmit();
                             setState(() {
                               currentIndex--;
                               selectedAnswer = null;
@@ -102,6 +106,7 @@ class _DoQuizPageState extends State<DoQuizPage> {
                       label: "Tiếp",
                       icon: Icons.arrow_forward,
                       onPressed: () {
+                        handleSubmit();
                         setState(() {
                           currentIndex++;
                           selectedAnswer = null;
@@ -110,12 +115,9 @@ class _DoQuizPageState extends State<DoQuizPage> {
                     )
                   else
                     ButtonDoQuiz(
-                      label: widget.answers == null ? "Nộp bài" : "Quay về",
+                      label: widget.answers == null ? "Hoàn thành" : "Quay về",
                       icon: Icons.check_circle,
-                      onPressed: () {
-                        AppNavigator.navigateTo(
-                            context, ResultPage(result: result));
-                      },
+                      onPressed: () => handleReview(),
                     ),
                 ],
               )

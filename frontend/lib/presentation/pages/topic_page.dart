@@ -45,8 +45,9 @@ class _TopicPageState extends State<TopicPage> {
   @override
   Widget build(BuildContext context) {
     void handleOnClick(String topic) {
-      Widget page =
-          widget.mode == "quiz" ? QuizPage() : FlashcardPage(topic: topic);
+      Widget page = widget.mode == "quiz"
+          ? QuizPage(topic: topic)
+          : FlashcardPage(topic: topic);
 
       AppNavigator.navigateTo(context, page);
     }
