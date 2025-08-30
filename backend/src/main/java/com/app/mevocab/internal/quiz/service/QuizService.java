@@ -37,6 +37,12 @@ public class QuizService {
                 .toList();
     }
 
+    public List<QuizResponse> findAllByTopic(String topic){
+        return quizRepository.findAllByTopic_Name(topic).stream()
+                .map(quizMapper::toQuizResponse)
+                .toList();
+    }
+
     public QuizResponse save(QuizSaveRequest request) {
         var quizID = request.getQuizID();
         Quiz quiz;

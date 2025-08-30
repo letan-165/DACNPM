@@ -3,6 +3,8 @@ package com.app.mevocab.internal.result.dto.request;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.List;
+
 @Builder
 @Data
 @AllArgsConstructor
@@ -10,6 +12,10 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class SubmitRequest {
     String resultID;
-    Integer questionID;
-    String answer;
+    List<Submit> submits;
+    @Data
+    public static class Submit {
+        Integer questionID;
+        String answer;
+    }
 }

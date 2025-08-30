@@ -29,6 +29,13 @@ public class QuizController {
                 .build();
     }
 
+    @GetMapping("/public/topic/{topic}")
+    ApiResponse<List<QuizResponse>> findAllByTopic(@PathVariable String topic) {
+        return ApiResponse.<List<QuizResponse>>builder()
+                .result(quizService.findAllByTopic(topic))
+                .build();
+    }
+
     @PostMapping("/public/save")
     ApiResponse<QuizResponse> save(@RequestBody QuizSaveRequest request) {
         return ApiResponse.<QuizResponse>builder()

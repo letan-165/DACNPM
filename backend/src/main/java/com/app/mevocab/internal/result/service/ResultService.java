@@ -64,14 +64,16 @@ public class ResultService {
                 .orElseThrow(()-> new AppException(ErrorCode.RESULT_NO_EXISTS));
 
         var questions = result.getQuiz().getQuestions();
-        Question question = questions.get(request.getQuestionID());
+        for (var submit : request.getSubmits()){
+            Question question = questions.get(submit.getQuestionID());
 
-        Answer answer = Answer.builder()
-                .answerID(request.getQuestionID())
-                .answer(request.getAnswer())
-                .correct(request.getAnswer().equals(question.getCorrect()))
-                .build();
-        result.getAnswers().put(request.getQuestionID(), answer);
+            Answer answer = Answer.builder()
+                    .answerID(submit.getQuestionID())
+                    .answer(submit.getAnswer())
+                    .correct(submit.getAnswer().equals(question.getCorrect()))
+                    .build();
+            result.getAnswers().put(submit.getQuestionID(), answer);
+        }
 
         return resultMapper.toResultResponse(resultRepository.save(result));
     }
