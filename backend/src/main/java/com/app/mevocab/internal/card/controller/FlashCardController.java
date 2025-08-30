@@ -28,6 +28,14 @@ public class FlashCardController {
                 .build();
     }
 
+    @GetMapping("/public/unmemorized/{studentID}")
+    ApiResponse<FlashCardResponse> findUnmemorizedCards(@PathVariable String studentID){
+        return ApiResponse.<FlashCardResponse>builder()
+                .message("Lay the cuar hoc sinh")
+                .result(flashCardService.findUnmemorizedCards(studentID))
+                .build();
+    }
+
     @PostMapping("/public/save")
     ApiResponse<FlashCardResponse> save(@RequestBody CardSaveRequest request){
         return ApiResponse.<FlashCardResponse>builder()

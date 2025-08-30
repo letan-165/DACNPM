@@ -40,11 +40,23 @@ public class FlashCardService {
             throw new AppException(ErrorCode.USER_NO_EXISTS);
 
         return flashCardRepository.findById(studentID)
-                .orElse(flashCardRepository.save(FlashCard.builder()
-                        .studentID(studentID)
-                        .cards(new HashMap<>())
-                        .build()));
+                .orElseGet(() -> flashCardRepository.save(
+                        FlashCard.builder()
+                                .studentID(studentID)
+                                .cards(new HashMap<>())
+                                .build()));
     }
+
+    public FlashCardResponse findUnmemorizedCards(String studentID) {
+        FlashCard flashCard = findByStudentID(studentID);
+        FlashCardResponse flashCardResponse = toFlashCardResponse(flashCard);
+        flashCardResponse.setCards(flashCardResponse.getCards().stream()
+                .filter(card -> !card.getIsMemorized())
+                .toList());
+
+        return flashCardResponse;
+    }
+
 
     public FlashCardResponse save(CardSaveRequest request){
         String studentID = request.getStudentID();
