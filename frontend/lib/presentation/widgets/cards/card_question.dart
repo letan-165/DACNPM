@@ -101,12 +101,17 @@ class _CardQuestionState extends State<CardQuestion> {
                       bool showRed = false;
 
                       if (isReview) {
-                        if (widget.answer!.correct) {
-                          showGreen = (opt == widget.answer!.answer);
-                          showRed = false;
-                        } else {
+                        if (widget.answer?.answer == "") {
                           showGreen = (opt == widget.question.correct);
-                          showRed = (opt == widget.answer!.answer);
+                          showRed = (opt != widget.question.correct);
+                        } else {
+                          if (widget.answer!.correct) {
+                            showGreen = (opt == widget.answer!.answer);
+                            showRed = false;
+                          } else {
+                            showGreen = (opt == widget.question.correct);
+                            showRed = (opt == widget.answer!.answer);
+                          }
                         }
                       }
 

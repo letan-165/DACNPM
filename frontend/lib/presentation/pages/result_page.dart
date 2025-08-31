@@ -98,8 +98,8 @@ class ResultPage extends StatelessWidget {
                   InfoRow(
                     icon: Icons.timer,
                     label: "Tổng thời gian",
-                    value:
-                        "${formatDuration(result.finish!.difference(result.createAt ?? DateTime.now()))} / ${result.quiz?.totalTime} phút",
+                    value: formatDuration(result.finish!
+                        .difference(result.createAt ?? DateTime.now())),
                     valueColor: Colors.orange,
                   ),
 
