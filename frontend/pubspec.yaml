@@ -19,6 +19,7 @@ dependencies:
   shared_preferences: ^2.2.3
   just_audio: ^0.10.4
   circular_countdown_timer: ^0.2.3
+  flutter_spinkit: ^5.2.2
 
 dev_dependencies:
   flutter_launcher_icons: ^0.13.1

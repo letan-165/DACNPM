@@ -4,10 +4,10 @@ import '../../models/Topic.dart';
 import '../../models/Word.dart';
 import '../../models/dto/Response/ApiResponse.dart';
 import '../../models/dto/Response/FlashCardResponse.dart';
+import '../../models/dto/Response/LoginResponse.dart';
 import '../../models/dto/Response/QuizResponse.dart';
 import '../../models/dto/Response/ResultResponse.dart';
 import '../../models/dto/Response/UserResponse.dart';
-import '../../models/dto/Response/LoginResponse.dart';
 import 'endpoints.dart';
 
 typedef FromJson<T> = T Function(Map<String, dynamic> json);
@@ -20,6 +20,15 @@ class ApiClient {
       receiveTimeout: const Duration(seconds: 10),
     ),
   )..interceptors.add(LogInterceptor(responseBody: true));
+
+  Future<bool> ping() async {
+    try {
+      final response = await dio.get('/ping');
+      return response.statusCode == 200;
+    } on DioException {
+      return false;
+    }
+  }
 
   static final Map<Type, FromJson<dynamic>> _factories = {
     UserResponse: (json) => UserResponse.fromJson(json),
