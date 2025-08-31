@@ -23,6 +23,7 @@ import java.time.Instant;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -48,10 +49,17 @@ public class ResultService {
         var quiz = quizRepository.findById(request.getQuizID())
                 .orElseThrow(()->new AppException(ErrorCode.QUIZ_NO_EXISTS));
 
+        var answers = quiz.getQuestions().values().stream()
+                .map(question -> Answer.builder()
+                        .answerID(question.getQuestionID())
+                        .answer("")
+                        .build())
+                .collect(Collectors.toMap(Answer::getAnswerID, answer -> answer));
+
         Result result = Result.builder()
                 .quiz(quiz)
                 .studentID(userID)
-                .answers(new HashMap<>())
+                .answers(answers)
                 .totalQuestion(quiz.getQuestions().size())
                 .createAt(Instant.now())
                 .build();
