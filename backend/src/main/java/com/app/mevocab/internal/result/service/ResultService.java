@@ -90,7 +90,7 @@ public class ResultService {
         result = result.toBuilder()
                 .totalCorrect(totalCorrect)
                 .totalQuestion(totalQuestion)
-                .score((double) totalCorrect /totalQuestion)
+                .score(((double) totalCorrect /totalQuestion)*10)
                 .finish(Instant.now())
                 .build();
 

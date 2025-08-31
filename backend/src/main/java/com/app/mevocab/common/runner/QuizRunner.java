@@ -69,8 +69,8 @@ public class QuizRunner implements ApplicationRunner {
                 } else if ( i == 4) {
                     question = question.toBuilder()
                             .type(QuestionType.ENTER)
-                            .title("Từ "+ word.getWord() + " có nghĩa là =@= .?")
-                            .correct(word.getTranslation())
+                            .title("Từ "+ word.getTranslation() + " có nghĩa là =@= .?")
+                            .correct(word.getWord())
                             .build();
                 }else{
                     String translation=word.getTranslation();
