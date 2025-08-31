@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:frontend/data/models/dto/Request/JoinQuizRequest.dart';
 import 'package:frontend/data/storage/submit_storage.dart';
@@ -7,25 +9,31 @@ import '../../data/api/result_api.dart';
 import '../../data/models/dto/Response/QuizResponse.dart';
 import '../../data/storage/login_storage.dart';
 import '../../routes/app_navigate.dart';
+import '../utils/time_function.dart';
 import '../widgets/cards/cart_chip_join.dart';
 import '../widgets/custom_appbar.dart';
 
-class JoinQuizPage extends StatelessWidget {
+class JoinQuizPage extends StatefulWidget {
   final QuizResponse quiz;
   const JoinQuizPage({super.key, required this.quiz});
 
   @override
+  State<JoinQuizPage> createState() => _JoinQuizPageState();
+}
+
+class _JoinQuizPageState extends State<JoinQuizPage> {
+  @override
   Widget build(BuildContext context) {
-    final questionCount = quiz.questions.length;
+    final questionCount = widget.quiz.questions.length;
 
     final ResultApi resultApi = ResultApi();
     Future<void> handleJoin() async {
       final login = await LoginStorage.getLogin(context);
       final request =
-          JoinQuizRequest(studentID: login.userID, quizID: quiz.quizID);
+          JoinQuizRequest(studentID: login.userID, quizID: widget.quiz.quizID);
       final response = await resultApi.join(request);
       SubmitStorage.create(response.resultID);
-      AppNavigator.navigateTo(context, DoQuizPage(quiz: quiz));
+      AppNavigator.navigateTo(context, DoQuizPage(quiz: widget.quiz));
     }
 
     return Scaffold(
@@ -87,7 +95,7 @@ class JoinQuizPage extends StatelessWidget {
 
                     // Tiêu đề
                     Text(
-                      quiz.title,
+                      widget.quiz.title,
                       textAlign: TextAlign.center,
                       style: const TextStyle(
                         fontSize: 26,
@@ -105,7 +113,7 @@ class JoinQuizPage extends StatelessWidget {
                       children: [
                         CartChipJoin(
                           icon: Icons.timer,
-                          text: "${quiz.totalTime} giây",
+                          text: formatSeconds(widget.quiz.totalTime),
                         ),
                         CartChipJoin(
                           icon: Icons.help_outline,
@@ -113,7 +121,7 @@ class JoinQuizPage extends StatelessWidget {
                         ),
                         CartChipJoin(
                           icon: Icons.book,
-                          text: quiz.topic?.name ?? "",
+                          text: widget.quiz.topic?.name ?? "",
                         ),
                       ],
                     ),

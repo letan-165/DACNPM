@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/presentation/pages/do_quiz_page.dart';
 import 'package:frontend/presentation/pages/home_page.dart';
-import 'package:intl/intl.dart';
 
 import '../../data/models/dto/Response/ResultResponse.dart';
 import '../../routes/app_navigate.dart';
+import '../utils/time_function.dart';
 import '../widgets/custom_appbar.dart';
 import '../widgets/forms/button_do_quiz.dart';
 
@@ -12,15 +12,6 @@ class ResultPage extends StatelessWidget {
   final ResultResponse result;
 
   const ResultPage({super.key, required this.result});
-
-  String formatDate(DateTime dt) {
-    return DateFormat('dd/MM/yyyy HH:mm').format(dt);
-  }
-
-  String formatDuration(Duration d) {
-    String twoDigits(int n) => n.toString().padLeft(2, "0");
-    return "${twoDigits(d.inMinutes)}:${twoDigits(d.inSeconds.remainder(60))}";
-  }
 
   @override
   Widget build(BuildContext context) {

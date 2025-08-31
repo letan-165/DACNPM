@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/data/api/flashcard_api.dart';
 import 'package:frontend/data/api/word_api.dart';
 import 'package:frontend/data/models/dto/Request/CardSaveRequest.dart';
-import 'package:frontend/presentation/pages/topic_page.dart';
+import 'package:frontend/presentation/pages/summary_page.dart';
 
 import '../../data/models/Word.dart';
 import '../../data/storage/login_storage.dart';
@@ -104,8 +104,7 @@ class _FlashcardPageState extends State<FlashcardPage> {
                       builder: (_) => CompletionDialog(
                         onGoToStats: () {
                           Navigator.pop(context);
-                          AppNavigator.navigateTo(
-                              context, TopicPage(mode: "flashcard"));
+                          AppNavigator.navigateTo(context, SummaryPage());
                         },
                       ),
                     );

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../data/models/dto/Response/QuizResponse.dart';
+import '../../utils/time_function.dart';
 
 class CardQuiz extends StatelessWidget {
   final QuizResponse quiz;
@@ -69,7 +70,7 @@ class CardQuiz extends StatelessWidget {
                     ),
                     const SizedBox(height: 6),
                     Text(
-                      "⏱ ${quiz.totalTime} phút",
+                      "⏱ ${formatSeconds(quiz.totalTime)}",
                       style: const TextStyle(
                         fontSize: 16,
                         color: Colors.black87,

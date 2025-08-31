@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../data/models/dto/Response/ResultResponse.dart';
+import '../../utils/time_function.dart';
 
 class ResultHistoryCard extends StatelessWidget {
   final ResultResponse result;
@@ -12,22 +13,11 @@ class ResultHistoryCard extends StatelessWidget {
     required this.onTap,
   });
 
-  String formatDuration(Duration d) {
-    final minutes = d.inMinutes;
-    final seconds = d.inSeconds % 60;
-    if (minutes > 0) {
-      return "$minutes phút ${seconds}s";
-    } else {
-      return "$seconds giây";
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final percent =
         ((result.totalCorrect / result.totalQuestion) * 100).toStringAsFixed(0);
 
-    // thời gian thực tế làm bài
     final Duration? duration =
         result.finish?.difference(result.createAt ?? DateTime.now());
 
