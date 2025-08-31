@@ -41,8 +41,8 @@ class SummaryPage extends StatelessWidget {
               const Divider(color: Colors.white70, thickness: 1),
               CardTopic(
                 icon: Icons.book,
-                title: "Từ vựng đã học",
-                subtitle: "120 từ vựng",
+                title: "Thống kê",
+                subtitle: "Tất cả từ vựng đã học",
                 color: Colors.orange,
                 onTap: () {
                   AppNavigator.navigateTo(context, VocabHistoryPage());
@@ -51,8 +51,8 @@ class SummaryPage extends StatelessWidget {
               const SizedBox(height: 20),
               CardTopic(
                 icon: Icons.book,
-                title: "Học tiếp từ chưa nhớ",
-                subtitle: "80 từ vựng",
+                title: "Học tiếp",
+                subtitle: "Các từ đã học nhưng chưa nhớ",
                 color: Colors.red,
                 onTap: () {
                   AppNavigator.navigateTo(
@@ -71,8 +71,8 @@ class SummaryPage extends StatelessWidget {
               const Divider(color: Colors.white70, thickness: 1),
               CardTopic(
                 icon: Icons.assignment,
-                title: "Bài tập đã làm",
-                subtitle: "2 bài quiz",
+                title: "Thống kê",
+                subtitle: "Danh sách bài đã làm",
                 color: Colors.green,
                 onTap: () {
                   AppNavigator.navigateTo(context, ResultHistoryPage());

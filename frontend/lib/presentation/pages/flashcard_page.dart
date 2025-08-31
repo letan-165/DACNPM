@@ -90,6 +90,7 @@ class _FlashcardPageState extends State<FlashcardPage> {
                         : "Chưa nhớ ${card.word.word}",
                     backgroundColor:
                         card.isMemorized ? Colors.green : Colors.red,
+                    duration: 0,
                   );
                   setState(() {
                     cards.add(CardRequest(

@@ -5,11 +5,13 @@ import 'package:just_audio/just_audio.dart';
 class FlashcardCard extends StatefulWidget {
   final Word word;
   final bool isBack;
+  final bool? isMemorized;
 
   const FlashcardCard({
     super.key,
     required this.word,
     this.isBack = false,
+    this.isMemorized,
   });
 
   @override
@@ -45,34 +47,68 @@ class _FlashcardCardState extends State<FlashcardCard> {
     final isBack = widget.isBack;
     final word = widget.word;
 
-    return SizedBox(
-      width: 320,
-      height: 440,
-      child: Card(
-        elevation: 12,
-        shadowColor: Colors.black45,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(25),
-        ),
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(25),
-            gradient: isBack
-                ? const LinearGradient(
-                    colors: [Color(0xFF74EBD5), Color(0xFF9FACE6)],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  )
-                : const LinearGradient(
-                    colors: [Color(0xFF6A11CB), Color(0xFF2575FC)],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
+    return Stack(
+      children: [
+        SizedBox(
+          width: 320,
+          height: 440,
+          child: Card(
+            elevation: 12,
+            shadowColor: Colors.black45,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(25),
+            ),
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(25),
+                gradient: isBack
+                    ? const LinearGradient(
+                        colors: [Color(0xFF74EBD5), Color(0xFF9FACE6)],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      )
+                    : const LinearGradient(
+                        colors: [Color(0xFF6A11CB), Color(0xFF2575FC)],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
+              ),
+              padding: const EdgeInsets.all(28),
+              child: isBack ? _buildBackContent() : _buildFrontContent(),
+            ),
           ),
-          padding: const EdgeInsets.all(28),
-          child: isBack ? _buildBackContent() : _buildFrontContent(),
         ),
-      ),
+        if (widget.isMemorized != null)
+          Positioned(
+            top: 20,
+            right: 20,
+            child: Container(
+              padding: const EdgeInsets.all(6),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: widget.isMemorized!
+                      ? [Colors.green.shade300, Colors.green.shade700]
+                      : [Colors.grey.shade400, Colors.grey.shade600],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+                shape: BoxShape.circle,
+                boxShadow: const [
+                  BoxShadow(
+                    color: Colors.black26,
+                    blurRadius: 4,
+                    offset: Offset(2, 2),
+                  )
+                ],
+              ),
+              child: Icon(
+                widget.isMemorized! ? Icons.check : Icons.hourglass_empty,
+                color: Colors.white,
+                size: 28,
+              ),
+            ),
+          ),
+      ],
     );
   }
 

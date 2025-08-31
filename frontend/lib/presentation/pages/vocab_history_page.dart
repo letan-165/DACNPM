@@ -19,6 +19,8 @@ class _VocabHistoryPageState extends State<VocabHistoryPage> {
   final FlashCardApi flashCardApi = FlashCardApi();
   List<CardItem> cards = [];
   bool loading = true;
+  String? selectedTopic; // null đại diện cho "Tất cả"
+  List<String> topics = [];
 
   @override
   void initState() {
@@ -32,6 +34,11 @@ class _VocabHistoryPageState extends State<VocabHistoryPage> {
       final data = await flashCardApi.findByStudentID(login.userID);
       setState(() {
         cards = data.cards;
+        topics = cards
+            .map((card) => card.word.topic?.name)
+            .whereType<String>() // loại bỏ null
+            .toSet()
+            .toList();
         loading = false;
       });
     } catch (e) {
@@ -39,6 +46,13 @@ class _VocabHistoryPageState extends State<VocabHistoryPage> {
         loading = false;
       });
     }
+  }
+
+  List<CardItem> get filteredCards {
+    if (selectedTopic == null) return cards;
+    return cards
+        .where((card) => card.word.topic?.name == selectedTopic)
+        .toList();
   }
 
   @override
@@ -50,63 +64,100 @@ class _VocabHistoryPageState extends State<VocabHistoryPage> {
           ? const LoadingWaitApi(text: "Đang tải dữ liệu...")
           : Padding(
               padding: const EdgeInsets.only(top: 80),
-              child: ListView.builder(
-                padding: const EdgeInsets.all(16),
-                itemCount: cards.length,
-                itemBuilder: (context, index) {
-                  final card = cards[index];
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 12),
-                    child: Stack(
-                      children: [
-                        Center(
-                          child: FlipCard(
-                            front:
-                                FlashcardCard(word: card.word, isBack: false),
-                            back: FlashcardCard(word: card.word, isBack: true),
+              child: Column(
+                children: [
+                  Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 12, vertical: 8),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(12),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black12,
+                            blurRadius: 6,
+                            offset: const Offset(0, 2),
                           ),
-                        ),
-                        Positioned(
-                          top: 20,
-                          right: 60,
-                          child: Container(
-                            padding: const EdgeInsets.all(6),
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                colors: card.isMemorized
-                                    ? [
-                                        Colors.green.shade300,
-                                        Colors.green.shade700
-                                      ] // Đã nhớ
-                                    : [
-                                        Colors.grey.shade400,
-                                        Colors.grey.shade600
-                                      ], // Chưa nhớ
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
+                        ],
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              const Icon(Icons.category,
+                                  color: Colors.blueAccent),
+                              const SizedBox(width: 8),
+                              DropdownButton<String>(
+                                hint: const Text("Chọn chủ đề"),
+                                value: selectedTopic,
+                                underline: const SizedBox(),
+                                items: [
+                                  const DropdownMenuItem<String>(
+                                    value: null,
+                                    child: Text("Tất cả"),
+                                  ),
+                                  ...topics.map((topic) {
+                                    return DropdownMenuItem(
+                                      value: topic,
+                                      child: Text(topic),
+                                    );
+                                  }),
+                                ],
+                                onChanged: (value) {
+                                  setState(() {
+                                    selectedTopic = value;
+                                  });
+                                },
                               ),
-                              shape: BoxShape.circle,
-                              boxShadow: const [
-                                BoxShadow(
-                                  color: Colors.black26,
-                                  blurRadius: 4,
-                                  offset: Offset(2, 2),
-                                )
-                              ],
-                            ),
-                            child: Icon(
-                              card.isMemorized
-                                  ? Icons.check
-                                  : Icons.hourglass_empty,
-                              color: Colors.white,
-                              size: 28,
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              const Icon(Icons.library_books,
+                                  color: Colors.green),
+                              const SizedBox(width: 6),
+                              Text(
+                                'Tổng số: ${filteredCards.length}',
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: ListView.builder(
+                      padding: const EdgeInsets.all(0),
+                      itemCount: filteredCards.length,
+                      itemBuilder: (context, index) {
+                        final card = filteredCards[index];
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 12),
+                          child: Center(
+                            child: FlipCard(
+                              front: FlashcardCard(
+                                  word: card.word,
+                                  isBack: false,
+                                  isMemorized: card.isMemorized),
+                              back: FlashcardCard(
+                                  word: card.word,
+                                  isBack: true,
+                                  isMemorized: card.isMemorized),
                             ),
                           ),
-                        ),
-                      ],
+                        );
+                      },
                     ),
-                  );
-                },
+                  ),
+                ],
               ),
             ),
     );
