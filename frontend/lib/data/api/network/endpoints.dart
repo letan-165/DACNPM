@@ -1,7 +1,7 @@
 class Host {
   static const String local = "http://10.0.2.2:8080";
-  static const String server = "";
-  static const String baseUrl = "$local/api";
+  static const String server = "https://dacnpm-latest-xiab.onrender.com";
+  static const String baseUrl = "$server/api";
 }
 
 class Endpoints {

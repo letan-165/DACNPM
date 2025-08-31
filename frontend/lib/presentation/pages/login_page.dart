@@ -128,7 +128,10 @@ class _LoginPageState extends State<LoginPage> {
                               },
                               child: const Text(
                                 "Chưa có tài khoản? Đăng ký",
-                                style: TextStyle(color: Colors.blueAccent),
+                                style: TextStyle(
+                                  color: Colors.blueAccent,
+                                  decoration: TextDecoration.underline,
+                                ),
                               ),
                             ),
                           ],

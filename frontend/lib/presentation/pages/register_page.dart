@@ -154,7 +154,10 @@ class _RegisterPageState extends State<RegisterPage> {
                               },
                               child: const Text(
                                 "Đã có tài khoản? Đăng nhập",
-                                style: TextStyle(color: Colors.blueAccent),
+                                style: TextStyle(
+                                  color: Colors.blueAccent,
+                                  decoration: TextDecoration.underline,
+                                ),
                               ),
                             ),
                           ],

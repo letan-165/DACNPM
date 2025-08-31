@@ -7,6 +7,7 @@ import '../../data/models/dto/Response/ResultResponse.dart';
 import '../../data/storage/login_storage.dart';
 import '../widgets/cards/card_result_history.dart';
 import '../widgets/custom_appbar.dart';
+import '../widgets/loadings/loading_wait_api.dart';
 
 class ResultHistoryPage extends StatefulWidget {
   const ResultHistoryPage({super.key});
@@ -58,26 +59,29 @@ class _ResultHistoryPageState extends State<ResultHistoryPage> {
           ),
         ),
         padding: const EdgeInsets.only(top: 80),
-        child: results.isEmpty
-            ? const Center(
-                child: Text(
-                  "Bạn chưa làm bài tập nào",
-                  style: TextStyle(fontSize: 16, color: Colors.white70),
-                ),
-              )
-            : ListView.builder(
-                padding: const EdgeInsets.all(16),
-                itemCount: results.length,
-                itemBuilder: (context, index) {
-                  final r = results[index];
-                  return ResultHistoryCard(
-                    result: r,
-                    onTap: () {
-                      AppNavigator.navigateTo(context, ResultPage(result: r));
+        child: loading
+            ? const LoadingWaitApi(text: "Đang tải dữ liệu...")
+            : results.isEmpty
+                ? const Center(
+                    child: Text(
+                      "Bạn chưa làm bài tập nào",
+                      style: TextStyle(fontSize: 16, color: Colors.white70),
+                    ),
+                  )
+                : ListView.builder(
+                    padding: const EdgeInsets.all(16),
+                    itemCount: results.length,
+                    itemBuilder: (context, index) {
+                      final r = results[index];
+                      return ResultHistoryCard(
+                        result: r,
+                        onTap: () {
+                          AppNavigator.navigateTo(
+                              context, ResultPage(result: r));
+                        },
+                      );
                     },
-                  );
-                },
-              ),
+                  ),
       ),
     );
   }
