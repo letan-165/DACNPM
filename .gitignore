@@ -1,6 +1,6 @@
 @"
 /shelf/
 /workspace.xml
-/backend/Dockerfile
+
 /backend/.env
 "@ > .gitignore
