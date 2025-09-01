@@ -1,11 +1,10 @@
 name: frontend
 description: "A new Flutter project."
 publish_to: 'none'
-
-version: 1.0.2
+version: 1.0.4
 
 environment:
-  sdk: ^3.6.0
+  sdk: ^3.9.0
 
 dependencies:
   flutter:
@@ -29,11 +28,11 @@ dev_dependencies:
   build_runner: ^2.4.9
   json_serializable: ^6.8.0
 
-# 🔥 cấu hình cho launcher icon (block mới)
+
 flutter_launcher_icons:
   android: true
   ios: true
-  image_path: "assets/images/logo.png"   # đặt logo tại đây
+  image_path: "assets/images/logo.png"
 
 flutter:
   uses-material-design: true
