@@ -49,8 +49,7 @@ class _LoginPageState extends State<LoginPage> {
     } catch (e) {
       if (!mounted) return;
       setState(() => isLoading = false);
-
-      CustomSnackBar.show(context, message: "Đăng nhập thất bại: $e");
+      CustomSnackBar.show(context, message: "Đăng nhập thất bại");
     }
   }
 

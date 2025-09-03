@@ -59,7 +59,7 @@ class _RegisterPageState extends State<RegisterPage> {
       if (!mounted) return;
       setState(() => isLoading = false);
 
-      CustomSnackBar.show(context, message: "Đăng ký thất bại: $e");
+      CustomSnackBar.show(context, message: "Tài khoản đã tồn tại");
     }
   }
 
