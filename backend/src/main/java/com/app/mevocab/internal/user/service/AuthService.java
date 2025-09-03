@@ -51,7 +51,7 @@ public class AuthService {
 
 
     public UserResponse signUp(UserSignUpRequest request) {
-        if(userRepository.existsByName(request.getName()))
+        if(userRepository.existsByUsername(request.getUsername()))
             throw new AppException(ErrorCode.USER_EXISTS);
 
         User user = userMapper.toUser(request);
@@ -76,21 +76,6 @@ public class AuthService {
                 .name(user.getName())
                 .token(generate(user))
                 .build();
-    }
-
-    public String findNameByToken(String token) {
-        String name = null;
-        try {
-            SignedJWT signedJWT = SignedJWT.parse(token);
-            name = signedJWT.getJWTClaimsSet().getSubject();
-        } catch (ParseException e) {
-            throw new AppException(ErrorCode.AUTHENTICATION);
-        }
-
-        if(!userRepository.existsByName(name))
-            throw new AppException(ErrorCode.USER_NO_EXISTS);
-
-        return name;
     }
 
     public Boolean instropect(TokenRequest request) throws ParseException, JOSEException {

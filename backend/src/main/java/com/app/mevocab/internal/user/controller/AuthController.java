@@ -43,14 +43,6 @@ public class AuthController {
                 .build();
     }
 
-    @PostMapping("/public/findName")
-    ApiResponse<String> findName(@RequestBody TokenRequest request) {
-        return ApiResponse.<String>builder()
-                .message("Tìm tên người dùng từ token: "+request.getToken())
-                .result(authService.findNameByToken(request.getToken()))
-                .build();
-    }
-
     @PostMapping("/instropect")
     public ApiResponse<Boolean> instropect(@RequestBody TokenRequest request) throws ParseException, JOSEException {
         return ApiResponse.<Boolean>builder()
