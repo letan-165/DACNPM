@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/presentation/pages/dictionary_page.dart';
 import 'package:frontend/presentation/pages/summary_page.dart';
 import 'package:frontend/presentation/pages/topic_page.dart';
 
@@ -31,10 +32,9 @@ class HomePage extends StatelessWidget {
         "navigate": () => AppNavigator.navigateTo(context, SummaryPage()),
       },
       {
-        "title": "Cài đặt",
-        "icon": Icons.settings,
-        "navigate": () => FeatureDialog.show(context,
-            message: "Tính năng đang phát triễn"),
+        "title": "Tra cứu",
+        "icon": Icons.translate,
+        "navigate": () => AppNavigator.navigateTo(context, DictionaryPage()),
       },
     ];
 
