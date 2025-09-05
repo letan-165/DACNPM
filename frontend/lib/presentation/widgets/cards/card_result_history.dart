@@ -43,7 +43,8 @@ class ResultHistoryCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      result.quiz?.title ?? "",
+                      result.quiz.title ?? "",maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -70,7 +71,12 @@ class ResultHistoryCard extends StatelessWidget {
                     ),
                     const SizedBox(height: 6),
                     Text(
-                      "Thời gian làm: ${formatDuration(duration!)}",
+                      "Thời gian làm: ${duration!= null ? formatDuration(duration) : "Chưa nộp"}",
+                      style: const TextStyle(fontSize: 13, color: Colors.grey),
+                    ),
+                    const SizedBox(height: 6),
+                    Text(
+                      "Thời gian nộp: ${result.finish != null ? formatDate(result.finish!) : "Chưa nộp"}",
                       style: const TextStyle(fontSize: 13, color: Colors.grey),
                     ),
                   ],

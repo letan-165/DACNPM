@@ -34,7 +34,7 @@ class HomePage extends StatelessWidget {
         "title": "Cài đặt",
         "icon": Icons.settings,
         "navigate": () => FeatureDialog.show(context,
-            message: "Người không có trình thì đừng bấm vào 🤬"),
+            message: "Tính năng đang phát triễn"),
       },
     ];
 
