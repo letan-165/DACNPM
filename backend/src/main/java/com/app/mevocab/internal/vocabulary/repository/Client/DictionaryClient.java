@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
-@FeignClient(value = "Dictionary", url = "https://api.dictionaryapi.dev/api/v2")
+@FeignClient(value = "dictionary", url = "${app.client.dictionary}")
 public interface DictionaryClient {
     @GetMapping("/entries/en/{word}")
     List<DictionaryResponse> getDictionary(@PathVariable String word);
