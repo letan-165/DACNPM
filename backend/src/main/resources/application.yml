@@ -10,6 +10,9 @@ spring:
       uri: ${MONGODB_URL:mongodb://root:root@localhost:27017/MEVOCAB?authSource=admin}
 
 app:
+  client:
+    lingva: ${LINGVA_URL:https://lingva.ml/api/v1}
+    dictionary: ${DICTIONARY:https://api.dictionaryapi.dev/api/v2}
   time:
     expiryTime: 3600
 
