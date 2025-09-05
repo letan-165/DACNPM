@@ -32,8 +32,11 @@ class _ResultHistoryPageState extends State<ResultHistoryPage> {
     final studentID = login.userID;
     try {
       final data = await resultApi.findAllByStudentID(studentID);
+      final filtered = data.where((r) => r.finish != null).toList();
+      filtered.sort((a, b) => b.finish!.compareTo(a.finish!));
+
       setState(() {
-        results = data;
+        results = filtered;
         loading = false;
       });
     } catch (e) {

@@ -23,5 +23,6 @@ String formatSeconds(int totalSeconds) {
 }
 
 String formatDate(DateTime dt) {
-  return DateFormat('dd/MM/yyyy HH:mm').format(dt);
+  final local = dt.toLocal();
+  return DateFormat('dd/MM/yyyy HH:mm').format(local);
 }

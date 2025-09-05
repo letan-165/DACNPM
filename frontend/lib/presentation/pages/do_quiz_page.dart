@@ -22,7 +22,7 @@ class DoQuizPage extends StatefulWidget {
   State<DoQuizPage> createState() => _DoQuizPageState();
 }
 
-class _DoQuizPageState extends State<DoQuizPage> {
+class _DoQuizPageState extends State<DoQuizPage> with WidgetsBindingObserver {
   final quizTimer = QuizTimer();
 
   @override
@@ -75,31 +75,37 @@ class _DoQuizPageState extends State<DoQuizPage> {
     final question = widget.quiz.questions[currentIndex];
 
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       extendBodyBehindAppBar: true,
       appBar: CustomAppBar(title: "Làm Quiz"),
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Color(0xFF6A11CB), Color(0xFF2575FC)],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
+      body: Stack(
+        children: [
+          Container( // background full
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Color(0xFF6A11CB), Color(0xFF2575FC)],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+            ),
           ),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(10),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              _buildProgressBar(),
-              const SizedBox(height: 20),
-              _buildHeader(),
-              const SizedBox(height: 20),
-              _buildQuestionCard(question),
-              const SizedBox(height: 20),
-              _buildNavigationButtons(),
-            ],
+          SafeArea(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(10),
+              child: Column(
+                children: [
+                  _buildProgressBar(),
+                  const SizedBox(height: 20),
+                  _buildHeader(),
+                  const SizedBox(height: 20),
+                  _buildQuestionCard(question),
+                  const SizedBox(height: 20),
+                  _buildNavigationButtons(),
+                ],
+              ),
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
